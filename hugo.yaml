@@ -1,0 +1,126 @@
+baseURL: https://aiagents.day/
+title: AI Agents Day
+theme: event
+
+defaultContentLanguage: es
+defaultContentLanguageInSubdir: false
+
+# Landing-only mode: only the home page is generated.
+# No taxonomies, RSS or sitemap.
+disableKinds:
+    - taxonomy
+    - term
+    - RSS
+    - sitemap
+
+# Landing-only mode: every regular page (about, sponsors, location, code of
+# conduct, privacy policy, and Sessionize sessions/speakers) is kept in the
+# source but neither rendered nor listed. Remove this block to re-enable them.
+cascade:
+    - build:
+          render: never
+          list: never
+      target:
+          kind: '{page,section}'
+
+languages:
+    _merge: deep
+    es:
+        languageName: Español
+        weight: 1
+        disabled: false
+        params:
+            # Open Graph / X (Twitter) Cards
+            description: |
+                AI Agents Day — un evento virtual sobre agentes de inteligencia artificial.
+            themes:
+                event:
+                    slogan: El evento virtual sobre agentes de IA
+                    location: Evento virtual · Online
+                    description: |
+                        **AI Agents Day** es un evento virtual dedicado a los agentes de
+                        inteligencia artificial: cómo se diseñan, se construyen y se llevan
+                        a producción. Te esperamos el **sábado 13 de diciembre**.
+                        Pronto compartiremos la agenda, los speakers y cómo registrarte. 🤖
+                    aboutUs: |
+                        Más información sobre el evento estará disponible pronto. ¡Mantente atento! 🤖
+                    callToActionSecondary:
+                        label: ¡Quiero ser speaker!
+
+    # English version disabled for now (landing-only, single language).
+    # Set `disabled: false` to bring it back.
+    en:
+        languageName: English
+        weight: 2
+        disabled: true
+        params:
+            description: |
+                AI Agents Day — a virtual event about artificial intelligence agents.
+            themes:
+                event:
+                    slogan: The virtual event about AI agents
+                    location: Virtual event · Online
+                    description: |
+                        **AI Agents Day** is a virtual event dedicated to artificial
+                        intelligence agents: how they are designed, built and taken to
+                        production. Join us on **Saturday, December 13**.
+                        Agenda, speakers and registration details are coming soon. 🤖
+                    aboutUs: |
+                        More information about the event will be added soon. Stay tuned! 🤖
+                    callToActionSecondary:
+                        label: Become a speaker!
+
+    # The theme ships German defaults; keep it disabled.
+    de:
+        disabled: true
+
+params:
+    # Open Graph / X (Twitter) Cards
+    images:
+        - logos/aiagents-day.svg
+    themes:
+        event:
+            # 👇 Sessionize API ID. Leave empty until the event exists in Sessionize.
+            sessionizeId:
+            title: AI Agents Day
+            shortTitle: AI Agents Day
+            startDate: 2026-12-13
+            endDate: 2026-12-13
+            # Virtual event: no physical address / map.
+            address: []
+            map:
+                embeddableMapUrl:
+                viewLargerMapUrl:
+            # Landing-only mode: no CTA links (registration / call for speakers).
+            callToAction:
+                eventbrite:
+                    eventId:
+                other:
+                    url:
+                enableBanner: false
+            callToActionSecondary:
+                url:
+            socialLinks:
+                xUrl:
+                facebookUrl:
+                linkedinUrl:
+            favicon: favicon.svg
+            images:
+                logo: logos/aiagents-day.svg
+                titleBackground: images/pexels-scottwebb-1048039.webp
+                location:
+            sponsors: []
+            partners: []
+            organizers: []
+            featuredSessions: []
+            colors:
+                primaryLighter: '#A5B4FC'
+                primary: '#6366F1'
+                primaryDarker: '#3730A3'
+                primaryDarkest: '#0F172A'
+                secondary: '#F5F7FB'
+                secondaryDarker: '#64748B'
+                track: '#06B6D4'
+                shadow: '#a6afc366'
+            redirectBasedOnBrowserLang: false
+            disableGenerator: false

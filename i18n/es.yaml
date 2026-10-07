@@ -1,0 +1,69 @@
+countdown.days: Días
+countdown.hours: Hrs
+countdown.minutes: Min
+countdown.seconds: Seg
+cta_banner.message: ¡Regístrate gratis!
+cta_button.get_ticket: ¡Regístrate!
+cta_section.heading: ¿Encontraste algo interesante?
+cta_section.subheading: ¡Regístrate hoy!
+cta_section.message: |
+    ¡No pierdas la oportunidad de aprender de expertos en agentes de IA y
+    conectar con la comunidad!
+header_featured_speakers: Speakers destacados
+speakers_page.heading: Speakers
+speakers_page.social_links: 'Redes sociales de {{ . }}'
+sessions_page.heading: Agenda
+sessions_page.day: Día {{ . }}
+sessions_page.heading_day_filter: Fecha
+sessions_page.heading_track_filter: Track
+sessions_page.speaker: Speaker
+sessions_page.room: Sala
+sessions_page.read_more: leer más
+sessions_page.heading_no_sessions: Aún no hay sesiones publicadas
+sessions_page.heading_come_back_soon: Vuelve pronto o síguenos en redes sociales
+menu.code_of_conduct: Código de conducta
+menu.about: Acerca de
+menu.sessions: Agenda
+menu.speakers: Speakers
+menu.location: Ubicación
+menu.sponsors: Sponsors y aliados
+menu.imprint: Aviso legal
+menu.privacy: Privacidad
+main_menu.label: Menú principal
+social-links_list.label: Redes sociales
+secondary_menu.label: Menú secundario
+language_menu.label: Seleccionar idioma
+location_page.heading: Ubicación
+location_page.directions_heading: Cómo llegar
+location_page.map_frame: Mapa interactivo con la ubicación del evento
+location_page.map_fullscreen: Ver mapa más grande
+sponsors_page.heading_sponsors: Sponsors
+sponsors_page.heading_partners: Aliados
+about_page.heading: Acerca de
+about_page.organizers_heading: 'El equipo organizador de {{ . }}'
+conference_tracks_section.heading: Tracks
+conference_tracks_section.subheading: Descubre los temas
+conference_tracks_section.action: Ver agenda
+featured_speakers_section.heading: Speakers destacados
+featured_speakers_section.subheading: Conoce a los expertos
+featured_speakers_section.action: Ver todos los speakers
+featured_sessions_section.heading: Sesiones destacadas
+featured_sessions_section.read_more: leer más
+featured_sessions_section.action: Todas las sesiones
+sponsors_section.heading: Nuestros sponsors
+sponsors_section.subheading: ¡Gracias a quienes nos apoyan!
+event_highlights_section.number_of_speakers:
+    one: '{{ . }} Speaker'
+    other: '{{ . }} Speakers'
+event_highlights_section.number_of_sessions:
+    one: '{{ . }} Sesión'
+    other: '{{ . }} Sesiones'
+event_highlights_section.number_of_days:
+    one: '{{ . }} Día'
+    other: '{{ . }} Días'
+speaker_page.sessions_by: Sesiones de
+session_page.further_sessions: Más sesiones
+session_page.further_sessions_from: Más sesiones de
+carousel.button_next: Siguiente
+carousel.button_previous: Anterior
+session_categories.label: Categorías de la sesión

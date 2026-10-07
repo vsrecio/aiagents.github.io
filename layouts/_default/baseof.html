@@ -1,0 +1,78 @@
+{{- /*
+    Landing-only override of themes/event/layouts/_default/baseof.html.
+    Removes every link: header title link, main/sidebar/secondary/footer menus,
+    language selector, social links, CTA buttons and the "made by" link.
+    To restore the full theme layout, delete this file.
+*/ -}}
+<!doctype html>
+<html lang="{{- .Site.Language.Lang -}}">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="{{ .Site.Params.themes.event.favicon | absURL }}" type="image/svg+xml" />
+
+        <title>{{ .Site.Params.themes.event.title }}</title>
+
+        <meta name="description" content="{{ .Site.Params.themes.event.description | markdownify | plainify }}" />
+
+        {{ if not .Site.Params.themes.event.disableGenerator }}<meta name="generator" content="hugo-theme-event" />{{ end }}
+
+        {{ template "_internal/opengraph.html" . }}
+        {{ template "_internal/twitter_cards.html" . }}
+
+        {{ with (resources.Match "**/*.css" | resources.Concat "styles.css" | minify | fingerprint) }}
+            <link rel="stylesheet" href="{{ .RelPermalink }}" type="text/css" media="screen" integrity="{{ .Data.Integrity }}" />
+        {{ end }}
+
+        <style>
+            :root {
+                --color-primary-lighter: {{- .Site.Params.themes.event.colors.primaryLighter }};
+                --color-primary: {{- .Site.Params.themes.event.colors.primary }};
+                --color-primary-darker: {{- .Site.Params.themes.event.colors.primaryDarker }};
+                --color-primary-darkest: {{- .Site.Params.themes.event.colors.primaryDarkest }};
+                --color-secondary: {{- .Site.Params.themes.event.colors.secondary }};
+                --color-secondary-darker: {{- .Site.Params.themes.event.colors.secondaryDarker }};
+                --color-track: {{- .Site.Params.themes.event.colors.track }};
+                --color-shadow: {{- .Site.Params.themes.event.colors.shadow }};
+            }
+        </style>
+    </head>
+
+    <body class="page-body" data-menu-mode="header">
+        <header class="section-container page-header" id="pageHeader">
+            <div class="section section--short page-header__content" id="pageHeaderContent">
+                <div class="page-header__navigation">
+                    <span class="page-header__title-link">
+                        {{ (strings.FirstUpper (or .Site.Params.themes.event.shortTitle .Site.Params.themes.event.title)) }}
+                    </span>
+                </div>
+            </div>
+        </header>
+
+        <script>
+            const header = document.getElementById('pageHeader');
+            const intercept = document.createElement('div');
+
+            intercept.setAttribute('data-observer-intercept', '');
+            header.before(intercept);
+
+            const observer = new IntersectionObserver(([entry]) => {
+                header.classList.toggle('page-header--scrolled', !entry.isIntersecting);
+            });
+
+            observer.observe(intercept);
+        </script>
+
+        <main class="page-main">
+            {{ block "main" . }}{{ end }}
+        </main>
+
+        <footer class="section-container">
+            <section class="section section--short page-footer-section">
+                <p class="page-footer-section__start">
+                    © {{ now.Year }} {{ .Site.Params.themes.event.title }} · aiagents.day
+                </p>
+            </section>
+        </footer>
+    </body>
+</html>

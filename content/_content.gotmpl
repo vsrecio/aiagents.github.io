@@ -1,0 +1,22 @@
+{{/*
+    Overrides the theme's root content adapter (themes/event/content/_content.gotmpl)
+    so the generated pages get localized titles (the theme hardcodes English).
+*/}}
+{{ .EnableAllLanguages }}
+
+{{ $pages := slice
+    (dict "path" "about" "title" (T "about_page.heading") "layout" "about")
+    (dict "path" "sponsors" "title" (T "menu.sponsors") "layout" "sponsors")
+    (dict "path" "location" "title" (T "location_page.heading") "layout" "location")
+}}
+
+{{ range $pages }}
+    {{ $.AddPage (dict
+        "content" (dict "mediaType" "text/markdown")
+        "kind" "page"
+        "path" .path
+        "title" .title
+        "type" "miscellaneous"
+        "layout" .layout
+    ) }}
+{{ end }}
