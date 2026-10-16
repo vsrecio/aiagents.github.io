@@ -388,46 +388,44 @@
         </div>
     </section>
 
-    <!-- Ecosystem & Sponsors Section (#sponsors-section) -->
+    <!-- Official Sponsors Section (#sponsors-section) -->
     <section id="sponsors-section" class="sponsors-section section">
         <div class="dc-container">
             <div class="section-header">
-                <span class="section-kicker">ECOSISTEMA &amp; ALIANZAS</span>
-                <h2 class="section-heading">Comunidad &amp; Partners</h2>
+                <span class="section-kicker">PATROCINADORES</span>
+                <h2 class="section-heading">Patrocinadores Oficiales</h2>
             </div>
 
             <p class="section-intro single-col-max">
-                <strong>{{ $event.title }}</strong> es un evento <strong>100% gratuito</strong> que reúne a equipos de
-                ingeniería, laboratorios de IA, creadores de herramientas developer-first y a las comunidades
-                tecnológicas de toda Latinoamérica.
+                <strong>{{ $event.title }}</strong> es posible gracias al respaldo de líderes globales en infraestructura
+                de agentes y es un evento <strong>100% gratuito</strong> para las comunidades tecnológicas de toda Latinoamérica.
             </p>
 
-            <div class="ecosystem-grid">
-                <div class="ecosystem-card">
-                    <span class="ecosystem-card__tag">Ecosistema · 01</span>
-                    <h3 class="ecosystem-card__title">Engineering &amp; Cloud Partners</h3>
-                    <p class="ecosystem-card__desc">
-                        Plataformas de infraestructura, modelos fundacionales, runtimes de agentes y herramientas
-                        de observabilidad que impulsan el ecosistema.
-                    </p>
+            {{- $sponsors := or site.Data.sponsors $event.sponsors }}
+            {{- with $sponsors }}
+                <div class="sponsors-showcase" role="list" aria-label="Patrocinadores oficiales">
+                    {{- range $s := . }}
+                        <div class="sponsor-card" role="listitem">
+                            <a
+                                class="sponsor-card__logo-link"
+                                href="{{ $s.url }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="{{ $s.name }}"
+                            >
+                                <img
+                                    class="sponsor-card__logo"
+                                    src="{{ $s.logo | relURL }}"
+                                    alt="{{ $s.name }}"
+                                    width="184"
+                                    height="42"
+                                    loading="lazy"
+                                />
+                            </a>
+                        </div>
+                    {{- end }}
                 </div>
-                <div class="ecosystem-card">
-                    <span class="ecosystem-card__tag">Ecosistema · 02</span>
-                    <h3 class="ecosystem-card__title">Open Source &amp; Tooling</h3>
-                    <p class="ecosystem-card__desc">
-                        Mantenedores de protocolos y gateways abiertos como MCP, AGENTS.md, A2A, agentgateway y
-                        Agent Router.
-                    </p>
-                </div>
-                <div class="ecosystem-card">
-                    <span class="ecosystem-card__tag">Ecosistema · 03</span>
-                    <h3 class="ecosystem-card__title">Comunidades Tech de LATAM</h3>
-                    <p class="ecosystem-card__desc">
-                        Acceso 100% gratis para grupos de ingeniería de software, investigadores y comunidades
-                        tecnológicas de toda Latinoamérica que conectan talento con impacto real.
-                    </p>
-                </div>
-            </div>
+            {{- end }}
         </div>
     </section>
 {{- end }}

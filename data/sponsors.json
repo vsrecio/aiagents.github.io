@@ -1,0 +1,9 @@
+[
+    {
+        "logo": "logos/docker.webp",
+        "url": "https://www.docker.com/",
+        "name": "Docker",
+        "description": "Plataforma líder en contenedores, entornos developer-first y Docker Sandboxes con aislamiento MicroVM para agentes de IA.",
+        "tier": "platinum"
+    }
+]

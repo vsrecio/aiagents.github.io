@@ -1252,6 +1252,58 @@ li {
     background-color: rgba(248, 246, 238, 0.08);
 }
 
+/* Official Sponsors Showcase (Rounded white card without legacy orange border) */
+.sponsors-showcase {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 0;
+}
+
+.editorial-tech .sponsor-card,
+.editorial-tech .sponsor-card:hover {
+    width: fit-content;
+    height: auto;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sponsor-card__logo-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 1rem 1.35rem;
+    border-radius: var(--radius-lg);
+    background-color: #ffffff;
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+    transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.sponsor-card__logo-link:hover,
+.sponsor-card__logo-link:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    outline: none;
+}
+
+.sponsor-card__logo {
+    width: 11.5rem;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
 .ecosystem-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
