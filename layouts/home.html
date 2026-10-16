@@ -1,0 +1,433 @@
+{{- define "main" }}
+    {{- $event := .Site.Params.themes.event }}
+    {{- $dateLabel := or $event.dateLabel "Sábado 12 de Diciembre de 2026" }}
+    {{- $locationLabel := or $event.location "100% Online" }}
+    {{- $freeLabel := or $event.freeLabel "100% Gratis · Comunidades Tech LATAM" }}
+
+    <!-- Hero Block (DevConf #hero-block — Modern, Airy & Rounded with Brand Palette) -->
+    <section id="hero-block" class="hero-block">
+        <div class="hero-block-mask" aria-hidden="true"></div>
+        <div class="dc-container hero-grid">
+            <div class="hero-text-block">
+                <div class="hero-pill">
+                    <span class="hero-pill__badge">EDICIÓN 2026</span>
+                    <span class="hero-pill__text">People · Ideas · Agents · Real Impact</span>
+                </div>
+
+                <h1 class="hero-heading">{{ $event.title }}</h1>
+
+                <div class="hero-meta">
+                    <span class="hero-meta__item">
+                        <svg class="hero-meta__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <rect x="3" y="4" width="18" height="17" rx="4" stroke="currentColor" stroke-width="2"/>
+                            <path d="M8 2v4M16 2v4M3 9.5h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="8.5" cy="14" r="1.25" fill="currentColor"/>
+                            <circle cx="12" cy="14" r="1.25" fill="currentColor"/>
+                            <circle cx="15.5" cy="14" r="1.25" fill="currentColor"/>
+                        </svg>
+                        <span>{{ $dateLabel }}</span>
+                    </span>
+                    <span class="hero-meta__online">
+                        <span class="hero-meta__online-dot" aria-hidden="true"></span>
+                        <span>{{ $locationLabel }}</span>
+                    </span>
+                    <span class="hero-meta__free">
+                        <span class="hero-meta__free-dot" aria-hidden="true"></span>
+                        <span>{{ $freeLabel }}</span>
+                    </span>
+                </div>
+
+                <p class="hero-intro">{{ $event.slogan }}</p>
+
+                {{- with $event.statusBadge }}
+                    <div class="hero-cta">
+                        <span class="status-badge">
+                            <span class="status-badge__dot" aria-hidden="true"></span>
+                            <span>{{ . }}</span>
+                        </span>
+                    </div>
+                {{- end }}
+            </div>
+
+            <!-- Decorative Modern Agentic Card (Rounded Window + Official Logo + Bento Stack) -->
+            <div class="hero-visual">
+                <div class="agent-card">
+                    <div class="agent-card__header" aria-hidden="true">
+                        <span class="agent-card__dot agent-card__dot--orange"></span>
+                        <span class="agent-card__dot agent-card__dot--sand"></span>
+                        <span class="agent-card__dot agent-card__dot--blue"></span>
+                        <span class="agent-card__title">agent.architecture.yaml</span>
+                    </div>
+
+                    <div class="agent-card__brand">
+                        <img
+                            class="hero-logo-img"
+                            src="{{ "logos/aiagents-day.png" | relURL }}"
+                            alt="{{ $event.title }} — AAD · Build / Learn / Connect"
+                            width="268"
+                            height="150"
+                        />
+                    </div>
+
+                    <div class="agent-card__body" aria-hidden="true">
+                        <div class="agent-node agent-node--primary">
+                            <span class="agent-node__tag">01 · Protocols &amp; Specs</span>
+                            <strong>Model Context Protocol (MCP) &amp; AGENTS.md</strong>
+                            <small>Integración de herramientas, datos y guía para coding agents</small>
+                        </div>
+                        <div class="agent-node-row">
+                            <div class="agent-node agent-node--secondary">
+                                <span class="agent-node__tag">02 · Interop &amp; Gateway</span>
+                                <strong>A2A · agentgateway</strong>
+                                <small>Agent Router sobre Envoy</small>
+                            </div>
+                            <div class="agent-node agent-node--tertiary">
+                                <span class="agent-node__tag">03 · Runtime</span>
+                                <strong>Docker MicroVMs</strong>
+                                <small>Sandbox por sesión</small>
+                            </div>
+                        </div>
+                        <div class="agent-node agent-node--accent">
+                            <span class="agent-node__tag">04 · Trust &amp; Safety</span>
+                            <strong>AI Governance: Unlock Agent Autonomy, Safely</strong>
+                            <small>Políticas, observabilidad, guardrails y despliegue seguro</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats / Thematic Pillars Block (DevConf .stats-block) -->
+    {{- with $event.stats }}
+        <div id="pillars-section" class="stats-block" aria-label="Pilares temáticos">
+            <div class="dc-container">
+                <div class="stats-grid">
+                    {{- range . }}
+                        <div class="stats-col">
+                            <div class="item">
+                                <div class="number">{{ .number }}</div>
+                                <div class="unit">{{ .unit }}</div>
+                            </div>
+                        </div>
+                    {{- end }}
+                </div>
+            </div>
+        </div>
+    {{- end }}
+
+    <!-- About & Why Attend Section (DevConf #about-section) -->
+    <section id="about-section" class="about-section section">
+        <div class="dc-container">
+            <div class="section-header">
+                <span class="section-kicker">EL EVENTO</span>
+                <h2 class="section-heading">Acerca de {{ $event.title }}</h2>
+            </div>
+
+            <div class="section-intro single-col-max">
+                {{ $event.description | markdownify }}
+            </div>
+
+            {{- with $event.benefits }}
+                <div class="benefits-list single-col-max">
+                    <h3 class="benefits-heading">{{ or $event.benefitsHeading "¿Por qué participar?" }}</h3>
+                    <ul class="benefits-grid">
+                        {{- range . }}
+                            <li class="benefits-item">
+                                <span class="benefits-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 20 20" fill="none">
+                                        <circle cx="10" cy="10" r="9" fill="currentColor" opacity="0.14"/>
+                                        <path d="M6.5 10.25L8.9 12.65L13.75 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </span>
+                                <span class="benefits-text">{{ . }}</span>
+                            </li>
+                        {{- end }}
+                    </ul>
+                </div>
+            {{- end }}
+        </div>
+    </section>
+
+    <!-- Open Agentic Standards, Gateway, Runtime Sandboxes & Governance Section (#standards-section) -->
+    <section id="standards-section" class="standards-section section section--tinted">
+        <div class="dc-container">
+            <div class="section-header">
+                <span class="section-kicker">OPEN AGENTIC STACK</span>
+                <h2 class="section-heading">Estándares &amp; Conceptos Agentic</h2>
+            </div>
+
+            <p class="section-intro single-col-max">
+                La nueva generación de sistemas autónomos se construye sobre protocolos abiertos,
+                gateways de conectividad segura, aislamiento con MicroVMs y gobernanza verificable.
+            </p>
+
+            <div class="standards-grid">
+                <!-- 01: Model Context Protocol (MCP) -->
+                <article class="standard-card">
+                    <div class="standard-card__top">
+                        <span class="standard-card__badge standard-card__badge--orange">Protocol · 01</span>
+                        <span class="standard-card__domain">aaif.io</span>
+                    </div>
+                    <h3 class="standard-card__title">
+                        <a href="https://aaif.io/projects/model-context-protocol" target="_blank" rel="noopener noreferrer">
+                            <span>Model Context Protocol (MCP)</span>
+                            <span class="standard-card__arrow" aria-hidden="true">↗</span>
+                        </a>
+                    </h3>
+                    <p class="standard-card__en">
+                        Model Context Protocol (MCP) is a protocol for seamless integration between LLM applications and external data sources.
+                    </p>
+                    <p class="standard-card__desc">
+                        Protocolo abierto que estandariza cómo las aplicaciones con LLMs descubren y se
+                        conectan de forma fluida con herramientas y fuentes de datos externas.
+                    </p>
+                </article>
+
+                <!-- 02: AGENTS.md -->
+                <article class="standard-card">
+                    <div class="standard-card__top">
+                        <span class="standard-card__badge standard-card__badge--blue">Spec · 02</span>
+                        <span class="standard-card__domain">aaif.io</span>
+                    </div>
+                    <h3 class="standard-card__title">
+                        <a href="https://aaif.io/projects/agents-md" target="_blank" rel="noopener noreferrer">
+                            <span>AGENTS.md</span>
+                            <span class="standard-card__arrow" aria-hidden="true">↗</span>
+                        </a>
+                    </h3>
+                    <p class="standard-card__en">
+                        AGENTS.md is a simple, open format for guiding coding agents.
+                    </p>
+                    <p class="standard-card__desc">
+                        Formato abierto y declarativo dentro del repositorio para guiar a los agentes de
+                        programación sobre arquitectura, convenciones y flujos de validación.
+                    </p>
+                </article>
+
+                <!-- 03: Agent2Agent (A2A) -->
+                <article class="standard-card">
+                    <div class="standard-card__top">
+                        <span class="standard-card__badge standard-card__badge--ink">Interop · 03</span>
+                        <span class="standard-card__domain">aaif.io</span>
+                    </div>
+                    <h3 class="standard-card__title">
+                        <a href="https://aaif.io/projects/agent2agent" target="_blank" rel="noopener noreferrer">
+                            <span>Agent2Agent (A2A)</span>
+                            <span class="standard-card__arrow" aria-hidden="true">↗</span>
+                        </a>
+                    </h3>
+                    <p class="standard-card__en">
+                        Agent2Agent (A2A) is an open protocol that enables AI agents to communicate, collaborate, and securely exchange information and tasks across different platforms and frameworks.
+                    </p>
+                    <p class="standard-card__desc">
+                        Interoperabilidad abierta para que agentes construidos en distintos frameworks
+                        colaboren, deleguen tareas e intercambien contexto de manera segura.
+                    </p>
+                </article>
+
+                <!-- 04: agentgateway -->
+                <article class="standard-card">
+                    <div class="standard-card__top">
+                        <span class="standard-card__badge standard-card__badge--blue">Connectivity · 04</span>
+                        <span class="standard-card__domain">aaif.io</span>
+                    </div>
+                    <h3 class="standard-card__title">
+                        <a href="https://aaif.io/projects/agentgateway" target="_blank" rel="noopener noreferrer">
+                            <span>agentgateway</span>
+                            <span class="standard-card__arrow" aria-hidden="true">↗</span>
+                        </a>
+                    </h3>
+                    <p class="standard-card__en">
+                        agentgateway enables secure, scalable connections between AI agents, models, tools, and APIs across ecosystems.
+                    </p>
+                    <p class="standard-card__desc">
+                        Plano de conectividad seguro y escalable entre agentes de IA, modelos, herramientas
+                        y APIs empresariales a través de múltiples ecosistemas.
+                    </p>
+                </article>
+
+                <!-- 05: Agent Router -->
+                <article class="standard-card">
+                    <div class="standard-card__top">
+                        <span class="standard-card__badge standard-card__badge--ink">Envoy Gateway · 05</span>
+                        <span class="standard-card__domain">aaif.io</span>
+                    </div>
+                    <h3 class="standard-card__title">
+                        <a href="https://aaif.io/projects/agent-router" target="_blank" rel="noopener noreferrer">
+                            <span>Agent Router</span>
+                            <span class="standard-card__arrow" aria-hidden="true">↗</span>
+                        </a>
+                    </h3>
+                    <p class="standard-card__en">
+                        Agent Router is an open source AI gateway built on Envoy that connects applications to models and MCP tools while platform teams manage access, routing, and usage.
+                    </p>
+                    <p class="standard-card__desc">
+                        AI gateway open source sobre Envoy que conecta aplicaciones con modelos y herramientas
+                        MCP mientras los equipos de plataforma gestionan acceso, ruteo y consumo.
+                    </p>
+                </article>
+
+                <!-- 06: Docker Sandboxes (MicroVM Isolation) -->
+                <article class="standard-card">
+                    <div class="standard-card__top">
+                        <span class="standard-card__badge standard-card__badge--orange">Runtime · 06</span>
+                        <span class="standard-card__domain">docker.com</span>
+                    </div>
+                    <h3 class="standard-card__title">
+                        <a href="https://www.docker.com/blog/why-microvms-the-architecture-behind-docker-sandboxes/" target="_blank" rel="noopener noreferrer">
+                            <span>Docker Sandboxes · MicroVM Isolation</span>
+                            <span class="standard-card__arrow" aria-hidden="true">↗</span>
+                        </a>
+                    </h3>
+                    <p class="standard-card__en">
+                        MicroVM isolation for every agent session, local or cloud. Network and filesystem locked down at the runtime.
+                    </p>
+                    <p class="standard-card__desc">
+                        Aislamiento dedicado con MicroVMs por cada sesión de agente, local o en la nube, con
+                        red y sistema de archivos restringidos directamente desde el runtime.
+                    </p>
+                </article>
+
+                <!-- 07: AI Governance: Unlock Agent Autonomy, Safely -->
+                <article class="standard-card standard-card--featured">
+                    <div class="standard-card--featured__main">
+                        <div class="standard-card__top">
+                            <span class="standard-card__badge standard-card__badge--orange">Governance · 07</span>
+                            <span class="standard-card__domain standard-card__domain--light">Autonomy &amp; Safety</span>
+                        </div>
+                        <h3 class="standard-card--featured__title">
+                            AI Governance: Unlock Agent Autonomy, Safely
+                        </h3>
+                        <p class="standard-card--featured__desc">
+                            Desbloquear la autonomía de los agentes en producción requiere gobernanza desde la
+                            arquitectura: políticas de mínimo privilegio, identidad verificable por agente,
+                            auditoría sobre llamadas MCP/A2A y ejecución confinada en MicroVMs.
+                        </p>
+                    </div>
+                    <div class="standard-card--featured__pillars">
+                        <div class="governance-pill">Policy-as-Code &amp; Guardrails</div>
+                        <div class="governance-pill">Least-Privilege Tool &amp; API Access</div>
+                        <div class="governance-pill">Runtime Sandboxing &amp; Audit Telemetry</div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule / Agenda Section (#schedule-section — Clean upcoming state) -->
+    <section id="schedule-section" class="schedule-section section">
+        <div class="dc-container">
+            <div class="section-header">
+                <span class="section-kicker">CRONOGRAMA</span>
+                <h2 class="section-heading">Agenda</h2>
+            </div>
+
+            <p class="section-intro single-col-max">
+                La agenda detallada de charlas, sesiones técnicas y horarios para el
+                <strong>{{ $dateLabel }}</strong> se anunciará próximamente.
+            </p>
+
+            <div class="schedule-nav" role="presentation">
+                <div class="schedule-nav__pill">
+                    <span class="heading">{{ $dateLabel }}</span>
+                    <span class="meta">Agenda por anunciar · En preparación</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call for Papers / Speakers Section (#cfp-section) -->
+    <section id="cfp-section" class="cfp-section section section--tinted">
+        <div class="dc-container">
+            <div class="section-header">
+                <span class="section-kicker">CALL FOR PAPERS</span>
+                <h2 class="section-heading">Convocatoria de Speakers</h2>
+            </div>
+
+            <p class="section-intro single-col-max">
+                Buscamos propuestas con rigor de ingeniería enfocadas en implementaciones reales,
+                decisiones de arquitectura, benchmarks reproducibles y aprendizajes en producción.
+            </p>
+
+            <div class="cfp-grid">
+                <div class="cfp-tracks">
+                    <div class="cfp-track-card">
+                        <span class="cfp-track-card__code">Formato 01</span>
+                        <h3 class="cfp-track-card__title">Keynotes &amp; Deep Dives</h3>
+                        <p class="cfp-track-card__desc">
+                            Sesiones técnicas de arquitectura, diseño de protocolos (MCP, A2A), evaluación
+                            sistemática y casos de estudio en entornos productivos.
+                        </p>
+                    </div>
+                    <div class="cfp-track-card">
+                        <span class="cfp-track-card__code">Formato 02</span>
+                        <h3 class="cfp-track-card__title">Live Engineering &amp; Demos</h3>
+                        <p class="cfp-track-card__desc">
+                            Demostraciones de código en vivo: construcción de servidores MCP, configuración de
+                            AGENTS.md, Agent Router, Docker Sandboxes y observabilidad.
+                        </p>
+                    </div>
+                </div>
+
+                <aside class="cfp-aside">
+                    <div class="cfp-status-box">
+                        <span class="cfp-status-box__kicker">Estado del CFP</span>
+                        <div class="cfp-status-box__title">Apertura Próximamente</div>
+                        <p class="cfp-status-box__text">
+                            El comité de programa publicará los lineamientos de postulación y fechas de cierre
+                            para ponentes.
+                        </p>
+                        <div class="cfp-status-box__meta">
+                            <span>Sin charlas comerciales</span>
+                            <span>100% Ingeniería aplicada</span>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ecosystem & Sponsors Section (#sponsors-section) -->
+    <section id="sponsors-section" class="sponsors-section section">
+        <div class="dc-container">
+            <div class="section-header">
+                <span class="section-kicker">ECOSISTEMA &amp; ALIANZAS</span>
+                <h2 class="section-heading">Comunidad &amp; Partners</h2>
+            </div>
+
+            <p class="section-intro single-col-max">
+                <strong>{{ $event.title }}</strong> es un evento <strong>100% gratuito</strong> que reúne a equipos de
+                ingeniería, laboratorios de IA, creadores de herramientas developer-first y a las comunidades
+                tecnológicas de toda Latinoamérica.
+            </p>
+
+            <div class="ecosystem-grid">
+                <div class="ecosystem-card">
+                    <span class="ecosystem-card__tag">Ecosistema · 01</span>
+                    <h3 class="ecosystem-card__title">Engineering &amp; Cloud Partners</h3>
+                    <p class="ecosystem-card__desc">
+                        Plataformas de infraestructura, modelos fundacionales, runtimes de agentes y herramientas
+                        de observabilidad que impulsan el ecosistema.
+                    </p>
+                </div>
+                <div class="ecosystem-card">
+                    <span class="ecosystem-card__tag">Ecosistema · 02</span>
+                    <h3 class="ecosystem-card__title">Open Source &amp; Tooling</h3>
+                    <p class="ecosystem-card__desc">
+                        Mantenedores de protocolos y gateways abiertos como MCP, AGENTS.md, A2A, agentgateway y
+                        Agent Router.
+                    </p>
+                </div>
+                <div class="ecosystem-card">
+                    <span class="ecosystem-card__tag">Ecosistema · 03</span>
+                    <h3 class="ecosystem-card__title">Comunidades Tech de LATAM</h3>
+                    <p class="ecosystem-card__desc">
+                        Acceso 100% gratis para grupos de ingeniería de software, investigadores y comunidades
+                        tecnológicas de toda Latinoamérica que conectan talento con impacto real.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+{{- end }}

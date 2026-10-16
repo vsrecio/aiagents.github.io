@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268 150" fill="none" role="img" aria-label="AAD — AI Agents Day · Build / Learn / Connect">
+  <!-- Background: Warm Cream (#EEECE2) -->
+  <rect width="268" height="150" fill="#EEECE2"/>
+
+  <!-- First 'A' — Signal Orange (#E94B20) -->
+  <path fill="#E94B20" fill-rule="evenodd" clip-rule="evenodd" d="M43 36H59L81 103H65L59.5 85.5H42L36.5 103H20.5L43 36ZM50.8 54.5L46.5 71.5H55.1L50.8 54.5Z"/>
+
+  <!-- Second 'A' — Editorial Black (#141615) -->
+  <path fill="#141615" fill-rule="evenodd" clip-rule="evenodd" d="M113.5 36H129.5L151.5 103H135.5L130 85.5H112.5L107 103H91L113.5 36ZM121.3 54.5L117 71.5H125.6L121.3 54.5Z"/>
+
+  <!-- 'D' — Editorial Black (#141615) -->
+  <path fill="#141615" fill-rule="evenodd" clip-rule="evenodd" d="M159 36H188C207.2 36 218.5 48.2 218.5 69.5C218.5 90.8 207.2 103 188 103H159V36ZM175.5 51.5V87.5H186.5C196.8 87.5 201.8 81 201.8 69.5C201.8 58 196.8 51.5 186.5 51.5H175.5Z"/>
+
+  <!-- Agentic Node Connector — Industrial Blue (#285F87) -->
+  <circle cx="228" cy="42.5" r="4.3" fill="#285F87"/>
+  <line x1="228" y1="49.5" x2="228" y2="89.5" stroke="#285F87" stroke-width="1.7"/>
+  <circle cx="228" cy="96.2" r="4.5" fill="#285F87"/>
+
+  <!-- Editorial Rule (#141615) -->
+  <line x1="14" y1="114" x2="253" y2="114" stroke="#141615" stroke-width="1.1"/>
+
+  <!-- Bottom Left: AI AGENTS DAY -->
+  <text x="14" y="128.5" fill="#141615" font-family="'Space Grotesk', 'Inter', Arial, sans-serif" font-size="9.5" font-weight="700" letter-spacing="2.05">AI AGENTS DAY</text>
+
+  <!-- Bottom Right: BUILD / LEARN / CONNECT -->
+  <text x="253" y="128.2" text-anchor="end" fill="#363937" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="7.1" font-weight="500" letter-spacing="0.35">BUILD / LEARN / CONNECT</text>
+</svg>

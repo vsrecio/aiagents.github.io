@@ -1,8 +1,10 @@
 {{- /*
     Landing-only override of themes/event/layouts/_default/baseof.html.
-    Removes every link and the navigation header: main/sidebar/secondary/footer
-    menus, language selector, social links, CTA buttons and the "made by" link.
-    To restore the full theme layout, delete this file.
+    Implements the AI Agents Day Design System (Editorial Tech / Retro-Futurist):
+    Paper Ivory (#EEECE2), Editorial Black (#141615), Signal Orange (#E94B20),
+    Industrial Blue (#285F87), Warm Concrete (#D9D3C6), Graphite (#363937),
+    and Paper White (#F8F6EE), with Anton, Space Grotesk, and IBM Plex Mono.
+    Zero clickable <a> links in the document body.
 */ -}}
 <!doctype html>
 <html lang="{{- .Site.Language.Lang -}}">
@@ -20,35 +22,150 @@
         {{ template "_internal/opengraph.html" . }}
         {{ template "_internal/twitter_cards.html" . }}
 
+        <!-- Typography: Anton (Display), Space Grotesk (Content & UI), IBM Plex Mono (Technical labels) -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
         {{ with (resources.Match "**/*.css" | resources.Concat "styles.css" | minify | fingerprint) }}
             <link rel="stylesheet" href="{{ .RelPermalink }}" type="text/css" media="screen" integrity="{{ .Data.Integrity }}" />
         {{ end }}
 
         <style>
             :root {
+                --color-primary: #e94b20;
+                --color-ink: #141615;
+                --color-background: #eeece2;
+                --color-secondary: #285f87;
+                --color-surface: #d9d3c6;
+                --color-muted: #363937;
+                --color-on-dark: #f8f6ee;
+
+                /* Theme compatibility aliases */
                 --color-primary-lighter: {{- .Site.Params.themes.event.colors.primaryLighter }};
-                --color-primary: {{- .Site.Params.themes.event.colors.primary }};
                 --color-primary-darker: {{- .Site.Params.themes.event.colors.primaryDarker }};
                 --color-primary-darkest: {{- .Site.Params.themes.event.colors.primaryDarkest }};
-                --color-secondary: {{- .Site.Params.themes.event.colors.secondary }};
                 --color-secondary-darker: {{- .Site.Params.themes.event.colors.secondaryDarker }};
                 --color-track: {{- .Site.Params.themes.event.colors.track }};
                 --color-shadow: {{- .Site.Params.themes.event.colors.shadow }};
+
+                --font-display: 'Anton', Impact, 'Arial Narrow', sans-serif;
+                --font-body: 'Space Grotesk', 'Inter', Arial, sans-serif;
+                --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+                --space-section: clamp(4rem, 8vw, 8rem);
+                --width-content: 1200px;
+                --radius-control: 0.25rem;
+                --rule-width: 1px;
             }
         </style>
     </head>
 
-    <body class="page-body">
+    <body class="page-body editorial-tech">
+        <header id="header" class="header fixed-top">
+            <div class="branding">
+                <div class="dc-container">
+                    <nav class="main-nav navbar" aria-label="Navegación principal">
+                        <div class="site-logo">
+                            <a class="site-logo__link scrollto" href="#hero-block" aria-label="{{ .Site.Params.themes.event.title }}">
+                                <svg class="site-logo__mark" viewBox="0 0 226 76" fill="none" aria-hidden="true">
+                                    <path fill="#E94B20" fill-rule="evenodd" clip-rule="evenodd" d="M26 4H42L64 71H48L42.5 53.5H25L19.5 71H3.5L26 4ZM33.8 22.5L29.5 39.5H38.1L33.8 22.5Z"/>
+                                    <path fill="#141615" fill-rule="evenodd" clip-rule="evenodd" d="M96.5 4H112.5L134.5 71H118.5L113 53.5H95.5L90 71H74L96.5 4ZM104.3 22.5L100 39.5H108.6L104.3 22.5Z"/>
+                                    <path fill="#141615" fill-rule="evenodd" clip-rule="evenodd" d="M142 4H171C190.2 4 201.5 16.2 201.5 37.5C201.5 58.8 190.2 71 171 71H142V4ZM158.5 19.5V55.5H169.5C179.8 55.5 184.8 49 184.8 37.5C184.8 26 179.8 19.5 169.5 19.5H158.5Z"/>
+                                    <circle cx="214" cy="10.5" r="4.5" fill="#285F87"/>
+                                    <line x1="214" y1="18" x2="214" y2="57.5" stroke="#285F87" stroke-width="2"/>
+                                    <circle cx="214" cy="64.5" r="4.5" fill="#285F87"/>
+                                </svg>
+                                <span class="site-logo__divider" aria-hidden="true"></span>
+                                <span class="site-logo__text">
+                                    <span class="site-logo__name">AI AGENTS DAY</span>
+                                    <span class="site-logo__meta technical-label">12 DIC 2026 · 100% ONLINE</span>
+                                </span>
+                            </a>
+                        </div>
+
+                        <button
+                            class="navbar-toggler"
+                            type="button"
+                            aria-controls="navigation"
+                            aria-expanded="false"
+                            aria-label="Alternar menú de navegación"
+                        >
+                            <span class="navbar-toggler__bar"></span>
+                            <span class="navbar-toggler__bar"></span>
+                        </button>
+
+                        <div id="navigation" class="navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link scrollto" href="#about-section">El Evento</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link scrollto" href="#standards-section">Estándares &amp; Stack</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link scrollto" href="#schedule-section">Agenda</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link scrollto" href="#cfp-section">Call for Papers</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link scrollto" href="#sponsors-section">Ecosistema</a>
+                                </li>
+                            </ul>
+
+                            <div class="navbar-actions">
+                                <a class="navbar-cta-btn scrollto" href="#cfp-section">
+                                    <span class="navbar-cta-btn__dot" aria-hidden="true"></span>
+                                    <span>Call for Speakers</span>
+                                </a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
         <main class="page-main">
             {{ block "main" . }}{{ end }}
         </main>
 
-        <footer class="section-container">
-            <section class="section section--short page-footer-section">
-                <p class="page-footer-section__start">
-                    © {{ now.Year }} {{ .Site.Params.themes.event.title }} · aiagents.day
-                </p>
-            </section>
+        <footer class="footer">
+            <div class="dc-container footer__inner">
+                <div class="footer__brand">
+                    <svg class="footer__logo-mark" viewBox="0 0 228 84" fill="none" aria-hidden="true">
+                        <path fill="#E94B20" fill-rule="evenodd" clip-rule="evenodd" d="M30 8H46L68 75H52L46.5 57.5H29L23.5 75H7.5L30 8ZM37.8 26.5L33.5 43.5H42.1L37.8 26.5Z"/>
+                        <path fill="#F8F6EE" fill-rule="evenodd" clip-rule="evenodd" d="M100.5 8H116.5L138.5 75H122.5L117 57.5H99.5L94 75H78L100.5 8ZM108.3 26.5L104 43.5H112.6L108.3 26.5Z"/>
+                        <path fill="#F8F6EE" fill-rule="evenodd" clip-rule="evenodd" d="M146 8H175C194.2 8 205.5 20.2 205.5 41.5C205.5 62.8 194.2 75 175 75H146V8ZM162.5 23.5V59.5H173.5C183.8 59.5 188.8 53 188.8 41.5C188.8 30 183.8 23.5 173.5 23.5H162.5Z"/>
+                        <circle cx="216" cy="14.5" r="4.5" fill="#285F87"/>
+                        <line x1="216" y1="22" x2="216" y2="61.5" stroke="#285F87" stroke-width="2"/>
+                        <circle cx="216" cy="68.5" r="4.5" fill="#285F87"/>
+                    </svg>
+                    <span class="footer__wordmark">AI AGENTS DAY</span>
+                    <span class="technical-label footer__spec">BUILD / LEARN / CONNECT</span>
+                </div>
+                <small class="copyright technical-label">© {{ now.Year }} {{ .Site.Params.themes.event.title }} · AIAGENTS.DAY</small>
+            </div>
         </footer>
+
+        <script>
+            (function () {
+                const toggler = document.querySelector('.navbar-toggler');
+                const navCollapse = document.getElementById('navigation');
+                if (!toggler || !navCollapse) return;
+
+                toggler.addEventListener('click', function () {
+                    const isOpen = navCollapse.classList.toggle('is-open');
+                    toggler.setAttribute('aria-expanded', String(isOpen));
+                });
+
+                navCollapse.querySelectorAll('a.scrollto').forEach(function (link) {
+                    link.addEventListener('click', function () {
+                        navCollapse.classList.remove('is-open');
+                        toggler.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            })();
+        </script>
     </body>
 </html>

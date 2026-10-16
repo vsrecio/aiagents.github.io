@@ -1,13 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#6366F1"/>
-      <stop offset="1" stop-color="#06B6D4"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="14" fill="url(#g)"/>
-  <rect x="12" y="18" width="40" height="30" rx="9" fill="#fff"/>
-  <circle cx="24" cy="32" r="4.5" fill="#3730A3"/>
-  <circle cx="40" cy="32" r="4.5" fill="#3730A3"/>
-  <line x1="32" y1="8" x2="32" y2="18" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" fill="none" role="img" aria-label="AAD — AI Agents Day">
+  <rect width="240" height="120" rx="8" fill="#EEECE2" stroke="#141615" stroke-width="4"/>
+  <!-- First 'A' — Signal Orange (#E94B20) -->
+  <path fill="#E94B20" fill-rule="evenodd" clip-rule="evenodd" d="M35 24H51L73 91H57L51.5 73.5H34L28.5 91H12.5L35 24ZM42.8 42.5L38.5 59.5H47.1L42.8 42.5Z"/>
+  <!-- Second 'A' — Editorial Black (#141615) -->
+  <path fill="#141615" fill-rule="evenodd" clip-rule="evenodd" d="M105.5 24H121.5L143.5 91H127.5L122 73.5H104.5L99 91H83L105.5 24ZM113.3 42.5L109 59.5H117.6L113.3 42.5Z"/>
+  <!-- 'D' — Editorial Black (#141615) -->
+  <path fill="#141615" fill-rule="evenodd" clip-rule="evenodd" d="M151 24H180C199.2 24 210.5 36.2 210.5 57.5C210.5 78.8 199.2 91 180 91H151V24ZM167.5 39.5V75.5H178.5C188.8 75.5 193.8 69 193.8 57.5C193.8 46 188.8 39.5 178.5 39.5H167.5Z"/>
+  <!-- Agentic Node Connector — Industrial Blue (#285F87) -->
+  <circle cx="221" cy="30.5" r="4.8" fill="#285F87"/>
+  <line x1="221" y1="38" x2="221" y2="77.5" stroke="#285F87" stroke-width="2.2"/>
+  <circle cx="221" cy="84.5" r="4.8" fill="#285F87"/>
+  <!-- Bottom Rule -->
+  <line x1="12.5" y1="101" x2="226" y2="101" stroke="#141615" stroke-width="2.5"/>
 </svg>
