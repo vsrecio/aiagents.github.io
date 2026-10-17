@@ -17,6 +17,18 @@
         {{- $sessionsById = merge $sessionsById (dict (string $sess.id) $sess) }}
     {{- end }}
 
+    {{- $roomsById := dict }}
+    {{- range $rm := (or $sessionize.rooms (slice)) }}
+        {{- $roomsById = merge $roomsById (dict (string $rm.id) $rm.name) }}
+    {{- end }}
+
+    {{- $categoriesById := dict }}
+    {{- range $cat := (or $sessionize.categories (slice)) }}
+        {{- range $item := (or $cat.items (slice)) }}
+            {{- $categoriesById = merge $categoriesById (dict (string $item.id) $item.name) }}
+        {{- end }}
+    {{- end }}
+
     <!-- Speakers Page Header -->
     <section class="subpage-hero">
         <div class="dc-container">
@@ -80,69 +92,48 @@
         </div>
     </section>
 
-    <!-- Speakers Directory Section -->
+    {{- $speakersPageUrl := cond $isEn ("en/speakers/" | relURL) ("speakers/" | relURL) }}
+
+    <!-- Speakers Photo Wall Section -->
     <section id="speakers-section" class="speakers-section section">
         <div class="dc-container">
             {{- if gt (len $speakers) 0 }}
-                <div class="speakers-grid" role="list">
+                <div class="speakers-wall-grid" role="list">
                     {{- range $sp := $speakers }}
-                        <article class="speaker-card" role="listitem">
-                            <div class="speaker-card__header">
-                                {{- if $sp.profilePicture }}
-                                    <img
-                                        class="speaker-card__avatar"
-                                        src="{{ $sp.profilePicture }}"
-                                        alt="{{ $sp.fullName }}"
-                                        width="72"
-                                        height="72"
-                                        loading="lazy"
-                                    />
-                                {{- else }}
-                                    <div class="speaker-card__avatar speaker-card__avatar--fallback" aria-hidden="true">
-                                        {{ substr (or $sp.firstName $sp.fullName "S") 0 1 }}
-                                    </div>
+                        {{- $profileUrl := printf "%s%s/" $speakersPageUrl ($sp.fullName | urlize) }}
+                        {{- $talkTitle := "" }}
+                        {{- range $sid := (or $sp.sessions (slice)) }}
+                            {{- if eq $talkTitle "" }}
+                                {{- with index $sessionsById (string $sid) }}
+                                    {{- $talkTitle = .title }}
                                 {{- end }}
-                                <div class="speaker-card__identity">
-                                    <h2 class="speaker-card__name">{{ $sp.fullName }}</h2>
-                                    {{- with $sp.tagLine }}
-                                        <p class="speaker-card__tagline">{{ . }}</p>
+                            {{- end }}
+                        {{- end }}
+                        <article id="speaker-{{ $sp.id }}" class="speaker-wall-item" role="listitem">
+                            <a class="speaker-wall-card" href="{{ $profileUrl }}">
+                                <div class="speaker-wall-card__photo-wrap">
+                                    {{- if $sp.profilePicture }}
+                                        <img
+                                            class="speaker-wall-card__photo"
+                                            src="{{ $sp.profilePicture }}"
+                                            alt="{{ $sp.fullName }}"
+                                            width="400"
+                                            height="400"
+                                            loading="lazy"
+                                        />
+                                    {{- else }}
+                                        <div class="speaker-wall-card__photo speaker-card__avatar--fallback" aria-hidden="true">
+                                            {{ substr (or $sp.firstName $sp.fullName "S") 0 1 }}
+                                        </div>
                                     {{- end }}
                                 </div>
-                            </div>
-
-                            {{- with $sp.bio }}
-                                <p class="speaker-card__bio">{{ . }}</p>
-                            {{- end }}
-
-                            {{- with $sp.sessions }}
-                                <div class="speaker-card__talks">
-                                    <span class="speaker-card__talks-label">{{ if $isEn }}Approved Talk{{ else }}Charla aprobada{{ end }}</span>
-                                    {{- range $sid := . }}
-                                        {{- with index $sessionsById (string $sid) }}
-                                            <a class="speaker-card__talk-title speaker-card__talk-link" href="{{ $sessionsPageUrl }}#session-{{ .id }}">
-                                                <span>{{ .title }}</span>
-                                                <span aria-hidden="true">→</span>
-                                            </a>
-                                        {{- end }}
+                                <div class="speaker-wall-card__caption">
+                                    <h2 class="speaker-wall-card__name">{{ $sp.fullName }}</h2>
+                                    {{- if ne $talkTitle "" }}
+                                        <p class="speaker-wall-card__talk">{{ $talkTitle }}</p>
                                     {{- end }}
                                 </div>
-                            {{- end }}
-
-                            {{- with $sp.links }}
-                                <div class="speaker-card__links">
-                                    {{- range . }}
-                                        <a
-                                            class="speaker-card__link"
-                                            href="{{ .url }}"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            <span>{{ or .title .linkType (cond $isEn "Profile" "Perfil") }}</span>
-                                            <span aria-hidden="true">↗</span>
-                                        </a>
-                                    {{- end }}
-                                </div>
-                            {{- end }}
+                            </a>
                         </article>
                     {{- end }}
                 </div>

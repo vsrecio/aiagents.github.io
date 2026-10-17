@@ -1,0 +1,192 @@
+{{- define "main" }}
+    {{- $isEn := eq .Site.Language.Lang "en" }}
+    {{- $event := .Site.Params.themes.event }}
+    {{- $dateLabel := or $event.dateLabel (cond $isEn "Saturday, December 12, 2026" "Sábado 12 de Diciembre de 2026") }}
+    {{- $speakersPageUrl := cond $isEn ("en/speakers/" | relURL) ("speakers/" | relURL) }}
+    {{- $sessionsPageUrl := cond $isEn ("en/sessions/" | relURL) ("sessions/" | relURL) }}
+
+    {{- $sessionize := partial "sessionize-api/view-all.html" (dict "sessionizeId" $event.sessionizeId) }}
+    {{- $rawSessions := or $sessionize.sessions (slice) }}
+
+    {{- $sessionsById := dict }}
+    {{- range $sess := $rawSessions }}
+        {{- $sessionsById = merge $sessionsById (dict (string $sess.id) $sess) }}
+    {{- end }}
+
+    {{- $roomsById := dict }}
+    {{- range $rm := (or $sessionize.rooms (slice)) }}
+        {{- $roomsById = merge $roomsById (dict (string $rm.id) $rm.name) }}
+    {{- end }}
+
+    {{- $categoriesById := dict }}
+    {{- range $cat := (or $sessionize.categories (slice)) }}
+        {{- range $item := (or $cat.items (slice)) }}
+            {{- $categoriesById = merge $categoriesById (dict (string $item.id) $item.name) }}
+        {{- end }}
+    {{- end }}
+
+    {{- $targetId := string (or .Params.speakerId "") }}
+    {{- $sp := dict
+        "id" $targetId
+        "fullName" (or .Params.fullName .Title)
+        "firstName" .Params.firstName
+        "lastName" .Params.lastName
+        "tagLine" .Params.tagLine
+        "bio" .Params.bio
+        "profilePicture" .Params.profilePicture
+        "sessions" (or .Params.sessions (slice))
+        "links" (or .Params.links (slice))
+    }}
+    {{- range $candidate := (or $sessionize.speakers (slice)) }}
+        {{- if eq (string $candidate.id) $targetId }}
+            {{- $sp = $candidate }}
+        {{- end }}
+    {{- end }}
+
+    <!-- Personal Speaker Profile Section -->
+    <section id="speaker-profile-section" class="speakers-section speaker-detail-section section">
+        <div class="dc-container">
+            <div class="speaker-back-nav">
+                <a class="speaker-back-link" href="{{ $speakersPageUrl }}">
+                    <span aria-hidden="true">←</span>
+                    <span>{{ if $isEn }}Back to all speakers{{ else }}Volver a todos los oradores{{ end }}</span>
+                </a>
+            </div>
+
+            <article id="speaker-{{ $sp.id }}" class="speaker-profile-card">
+                <div class="speaker-profile-card__aside">
+                    <div class="speaker-profile-card__avatar-wrap">
+                        {{- if $sp.profilePicture }}
+                            <img
+                                class="speaker-profile-card__avatar"
+                                src="{{ $sp.profilePicture }}"
+                                alt="{{ $sp.fullName }}"
+                                width="280"
+                                height="280"
+                            />
+                        {{- else }}
+                            <div class="speaker-profile-card__avatar speaker-card__avatar--fallback" aria-hidden="true">
+                                {{ substr (or $sp.firstName $sp.fullName "S") 0 1 }}
+                            </div>
+                        {{- end }}
+                        <span class="speaker-profile-card__badge">
+                            {{ if $isEn }}Confirmed Speaker{{ else }}Orador Confirmado{{ end }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="speaker-profile-card__body">
+                    <div class="speaker-profile-card__identity">
+                        <h1 class="speaker-profile-card__name">{{ $sp.fullName }}</h1>
+                        {{- with $sp.tagLine }}
+                            <p class="speaker-profile-card__tagline">{{ . }}</p>
+                        {{- end }}
+                    </div>
+
+                    {{- with $sp.bio }}
+                        <div class="speaker-profile-card__bio">
+                            {{ . | markdownify }}
+                        </div>
+                    {{- end }}
+
+                    {{- with $sp.links }}
+                        <div class="speaker-card__links">
+                            {{- range . }}
+                                {{- $ltype := lower (or .linkType .title "") }}
+                                {{- $label := or .title .linkType (cond $isEn "Profile" "Perfil") }}
+                                {{- if eq $ltype "twitter" }}{{- $label = "X (Twitter)" }}{{- end }}
+                                <a
+                                    class="speaker-card__link"
+                                    href="{{ .url }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {{- if in $ltype "linkedin" }}
+                                        <svg class="speaker-card__link-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                            <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                                        </svg>
+                                    {{- else if in $ltype "instagram" }}
+                                        <svg class="speaker-card__link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                                        </svg>
+                                    {{- else if or (in $ltype "twitter") (eq $ltype "x") }}
+                                        <svg class="speaker-card__link-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                        </svg>
+                                    {{- end }}
+                                    <span>{{ $label }}</span>
+                                    <span aria-hidden="true">↗</span>
+                                </a>
+                            {{- end }}
+                        </div>
+                    {{- end }}
+
+                    {{- with $sp.sessions }}
+                        <div class="speaker-profile-card__sessions">
+                            <span class="speaker-card__talks-label">
+                                {{ if $isEn }}Assigned Session in Schedule{{ else }}Charla Asignada en la Agenda{{ end }}
+                            </span>
+                            {{- range $sid := . }}
+                                {{- with $sess := index $sessionsById (string $sid) }}
+                                    <div class="speaker-assigned-talk">
+                                        <div class="speaker-assigned-talk__meta">
+                                            {{- if and $sess.startsAt $sess.endsAt }}
+                                                <span class="slot-tag slot-tag--orange">
+                                                    {{ ($sess.startsAt | time.AsTime).Format "15:04" }} – {{ ($sess.endsAt | time.AsTime).Format "15:04" }} · {{ $dateLabel }}
+                                                </span>
+                                            {{- else }}
+                                                <span class="slot-tag slot-tag--orange">{{ $dateLabel }}</span>
+                                            {{- end }}
+                                            {{- with index $roomsById (string $sess.roomId) }}
+                                                <span class="slot-tag slot-tag--blue">{{ . }}</span>
+                                            {{- end }}
+                                            {{- range $cid := (or $sess.categoryItems (slice)) }}
+                                                {{- with index $categoriesById (string $cid) }}
+                                                    <span class="slot-tag slot-tag--ink">{{ . }}</span>
+                                                {{- end }}
+                                            {{- end }}
+                                        </div>
+
+                                        <h2 class="speaker-assigned-talk__title">
+                                            <a href="{{ $sessionsPageUrl }}#session-{{ $sess.id }}">
+                                                {{ $sess.title }}
+                                            </a>
+                                        </h2>
+
+                                        {{- with $sess.description }}
+                                            <p class="speaker-assigned-talk__desc">{{ . }}</p>
+                                        {{- end }}
+
+                                        {{- $callUrl := or $sess.liveUrl (index (or $event.sessionCallLinks dict) (string $sess.id)) $event.defaultCallUrl "#speaker-profile-section" }}
+                                        <div class="speaker-assigned-talk__actions">
+                                            <a
+                                                class="session-join-btn"
+                                                href="{{ $callUrl }}"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                <svg class="session-join-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                    <polygon points="23 7 16 12 23 17 23 7"/>
+                                                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                                                </svg>
+                                                <span>{{ if $isEn }}Register / Join Call{{ else }}Inscribirse / Entrar a la llamada{{ end }}</span>
+                                                <span aria-hidden="true">↗</span>
+                                            </a>
+
+                                            <a class="speaker-assigned-talk__cta" href="{{ $sessionsPageUrl }}#session-{{ $sess.id }}">
+                                                <span>{{ if $isEn }}View in Event Schedule{{ else }}Ver en la Agenda del Evento{{ end }}</span>
+                                                <span aria-hidden="true">→</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {{- end }}
+                            {{- end }}
+                        </div>
+                    {{- end }}
+                </div>
+            </article>
+        </div>
+    </section>
+{{- end }}

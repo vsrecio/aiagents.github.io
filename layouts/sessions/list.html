@@ -138,32 +138,49 @@
                                     <p class="desc">{{ . }}</p>
                                 {{- end }}
 
-                                {{- with $sess.speakers }}
-                                    <div class="session-speakers">
-                                        {{- range $spId := . }}
-                                            {{- with index $speakersById (string $spId) }}
-                                                <a class="session-speaker-chip session-speaker-chip--link" href="{{ $speakersPageUrl }}">
-                                                    {{- if .profilePicture }}
-                                                        <img
-                                                            class="session-speaker-chip__avatar"
-                                                            src="{{ .profilePicture }}"
-                                                            alt="{{ .fullName }}"
-                                                            width="32"
-                                                            height="32"
-                                                            loading="lazy"
-                                                        />
-                                                    {{- end }}
-                                                    <div class="session-speaker-chip__info">
-                                                        <strong class="session-speaker-chip__name">{{ .fullName }}</strong>
-                                                        {{- with .tagLine }}
-                                                            <span class="session-speaker-chip__role">{{ . }}</span>
+                                {{- $callUrl := or $sess.liveUrl (index (or $event.sessionCallLinks dict) (string $sess.id)) $event.defaultCallUrl "#schedule-section" }}
+                                <div class="session-footer">
+                                    {{- with $sess.speakers }}
+                                        <div class="session-speakers">
+                                            {{- range $spId := . }}
+                                                {{- with index $speakersById (string $spId) }}
+                                                    <a class="session-speaker-chip session-speaker-chip--link" href="{{ printf "%s%s/" $speakersPageUrl (.fullName | urlize) }}">
+                                                        {{- if .profilePicture }}
+                                                            <img
+                                                                class="session-speaker-chip__avatar"
+                                                                src="{{ .profilePicture }}"
+                                                                alt="{{ .fullName }}"
+                                                                width="32"
+                                                                height="32"
+                                                                loading="lazy"
+                                                            />
                                                         {{- end }}
-                                                    </div>
-                                                </a>
+                                                        <div class="session-speaker-chip__info">
+                                                            <strong class="session-speaker-chip__name">{{ .fullName }}</strong>
+                                                            {{- with .tagLine }}
+                                                                <span class="session-speaker-chip__role">{{ . }}</span>
+                                                            {{- end }}
+                                                        </div>
+                                                    </a>
+                                                {{- end }}
                                             {{- end }}
-                                        {{- end }}
-                                    </div>
-                                {{- end }}
+                                        </div>
+                                    {{- end }}
+
+                                    <a
+                                        class="session-join-btn"
+                                        href="{{ $callUrl }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <svg class="session-join-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <polygon points="23 7 16 12 23 17 23 7"/>
+                                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                                        </svg>
+                                        <span>{{ if $isEn }}Register / Join Call{{ else }}Inscribirse / Entrar a la llamada{{ end }}</span>
+                                        <span aria-hidden="true">↗</span>
+                                    </a>
+                                </div>
                             </div>
                         </article>
                     {{- end }}

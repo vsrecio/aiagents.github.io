@@ -15,33 +15,30 @@
     {{ end }}
 {{ end }}
 
-{{/* In production (main published site), exclude "demo demo" test talks so only real talks appear publicly.
-     In local development (hugo server), keep the demo talk so we can design the Speakers & Agenda pages. */}}
-{{ if hugo.IsProduction }}
-    {{ $realSessions := slice }}
-    {{ $realSessionIds := slice }}
-    {{ range (or $data.sessions (slice)) }}
-        {{ $titleLower := lower (trim .title " ") }}
-        {{ if and (ne $titleLower "demo demo") (ne $titleLower "demo") }}
-            {{ $realSessions = $realSessions | append . }}
-            {{ $realSessionIds = $realSessionIds | append (string .id) }}
-        {{ end }}
+{{/* Strip any raw "demo demo" test session from the remote Sessionize payload */}}
+{{ $realSessions := slice }}
+{{ $realSessionIds := slice }}
+{{ range (or $data.sessions (slice)) }}
+    {{ $titleLower := lower (trim .title " ") }}
+    {{ if and (ne $titleLower "demo demo") (ne $titleLower "demo") }}
+        {{ $realSessions = $realSessions | append . }}
+        {{ $realSessionIds = $realSessionIds | append (string .id) }}
     {{ end }}
-
-    {{ $realSpeakers := slice }}
-    {{ range (or $data.speakers (slice)) }}
-        {{ $hasRealSession := false }}
-        {{ range (or .sessions (slice)) }}
-            {{ if in $realSessionIds (string .) }}
-                {{ $hasRealSession = true }}
-            {{ end }}
-        {{ end }}
-        {{ if $hasRealSession }}
-            {{ $realSpeakers = $realSpeakers | append . }}
-        {{ end }}
-    {{ end }}
-
-    {{ $data = merge $data (dict "sessions" $realSessions "speakers" $realSpeakers) }}
 {{ end }}
+
+{{ $realSpeakers := slice }}
+{{ range (or $data.speakers (slice)) }}
+    {{ $hasRealSession := false }}
+    {{ range (or .sessions (slice)) }}
+        {{ if in $realSessionIds (string .) }}
+            {{ $hasRealSession = true }}
+        {{ end }}
+    {{ end }}
+    {{ if $hasRealSession }}
+        {{ $realSpeakers = $realSpeakers | append . }}
+    {{ end }}
+{{ end }}
+
+{{ $data = merge $data (dict "sessions" $realSessions "speakers" $realSpeakers) }}
 
 {{ return $data }}

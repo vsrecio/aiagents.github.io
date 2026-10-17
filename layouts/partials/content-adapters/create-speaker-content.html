@@ -1,3 +1,30 @@
-{{/* Landing-only mode: speakers and sessions are rendered directly on the home page from site.Data.sessionize.
-     Returning empty slices here prevents Hugo v0.156 from panicking in getResourcesForPage when /speakers has render: never across multiple languages. */}}
-{{ return dict "pages" (slice) "resources" (slice) }}
+{{ $input := . }}
+{{ $pages := slice }}
+
+{{ range (or $input.sessionize.speakers (slice)) }}
+    {{ $slug := urlize (or .fullName (string .id)) }}
+    {{ $content := dict "mediaType" "text/markdown" "value" (or .bio "") }}
+    {{ $params := dict
+        "speakerId" (string .id)
+        "fullName" .fullName
+        "firstName" .firstName
+        "lastName" .lastName
+        "tagLine" .tagLine
+        "bio" .bio
+        "profilePicture" .profilePicture
+        "isTopSpeaker" .isTopSpeaker
+        "sessions" (or .sessions (slice))
+        "links" (or .links (slice))
+    }}
+    {{ $page := dict
+        "content" $content
+        "kind" "page"
+        "path" $slug
+        "title" .fullName
+        "params" $params
+        "build" (dict "render" "always" "list" "always" "publishResources" false)
+    }}
+    {{ $pages = $pages | append $page }}
+{{ end }}
+
+{{ return dict "pages" $pages "resources" (slice) }}
