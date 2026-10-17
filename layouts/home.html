@@ -374,7 +374,7 @@
         </div>
     </section>
 
-    {{- $sessionize := or site.Data.sessionize (dict "sessions" (slice) "speakers" (slice) "categories" (slice) "rooms" (slice)) }}
+    {{- $sessionize := partial "sessionize-api/view-all.html" (dict "sessionizeId" $event.sessionizeId) }}
     {{- $speakers := or $sessionize.speakers (slice) }}
     {{- $rawSessions := or $sessionize.sessions (slice) }}
 
@@ -405,7 +405,7 @@
         {{- end }}
     {{- end }}
 
-    <!-- Speakers Section (#speakers-section — Auto-populated from data/sessionize.json) -->
+    <!-- Speakers Section (#speakers-section — Fetched natively by Hugo via sessionize-api/view-all.html) -->
     <section id="speakers-section" class="speakers-section section">
         <div class="dc-container">
             <div class="section-header">
