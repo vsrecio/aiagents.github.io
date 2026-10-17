@@ -20,6 +20,7 @@ cascade:
     - build:
           render: never
           list: never
+          publishResources: false
       target:
           kind: '{page,section}'
 
