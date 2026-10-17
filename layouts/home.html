@@ -381,13 +381,13 @@
     {{- /* Build lookup maps by stringified ID for speakers, sessions, rooms, and category items */ -}}
     {{- $speakersById := dict }}
     {{- range $sp := $speakers }}
-        {{- $speakersById = merge $speakersById (dict (printf "%v" $sp.id) $sp) }}
+        {{- $speakersById = merge $speakersById (dict (string $sp.id) $sp) }}
     {{- end }}
 
     {{- $sessionsById := dict }}
     {{- $approvedSessions := slice }}
     {{- range $sess := $rawSessions }}
-        {{- $sessionsById = merge $sessionsById (dict (printf "%v" $sess.id) $sess) }}
+        {{- $sessionsById = merge $sessionsById (dict (string $sess.id) $sess) }}
         {{- if not $sess.isServiceSession }}
             {{- $approvedSessions = $approvedSessions | append $sess }}
         {{- end }}
@@ -395,13 +395,13 @@
 
     {{- $roomsById := dict }}
     {{- range $rm := (or $sessionize.rooms (slice)) }}
-        {{- $roomsById = merge $roomsById (dict (printf "%v" $rm.id) $rm.name) }}
+        {{- $roomsById = merge $roomsById (dict (string $rm.id) $rm.name) }}
     {{- end }}
 
     {{- $categoriesById := dict }}
     {{- range $cat := (or $sessionize.categories (slice)) }}
         {{- range $item := (or $cat.items (slice)) }}
-            {{- $categoriesById = merge $categoriesById (dict (printf "%v" $item.id) $item.name) }}
+            {{- $categoriesById = merge $categoriesById (dict (string $item.id) $item.name) }}
         {{- end }}
     {{- end }}
 
@@ -458,7 +458,7 @@
                                 <div class="speaker-card__talks">
                                     <span class="speaker-card__talks-label">{{ if $isEn }}Approved Talk{{ else }}Charla aprobada{{ end }}</span>
                                     {{- range $sid := . }}
-                                        {{- with index $sessionsById (printf "%v" $sid) }}
+                                        {{- with index $sessionsById (string $sid) }}
                                             <div class="speaker-card__talk-title">{{ .title }}</div>
                                         {{- end }}
                                     {{- end }}
@@ -537,7 +537,7 @@
                                 {{- else }}
                                     <div class="time">{{ $dateLabel }}</div>
                                 {{- end }}
-                                {{- with index $roomsById (printf "%v" $sess.roomId) }}
+                                {{- with index $roomsById (string $sess.roomId) }}
                                     <span class="slot-tag slot-tag--blue">{{ . }}</span>
                                 {{- else }}
                                     <span class="slot-tag slot-tag--orange">{{ if $isEn }}Confirmed Talk{{ else }}Charla Confirmada{{ end }}</span>
@@ -548,7 +548,7 @@
                                 {{- with $sess.categoryItems }}
                                     <div class="session-tags">
                                         {{- range $cid := . }}
-                                            {{- with index $categoriesById (printf "%v" $cid) }}
+                                            {{- with index $categoriesById (string $cid) }}
                                                 <span class="slot-tag slot-tag--ink">{{ . }}</span>
                                             {{- end }}
                                         {{- end }}
@@ -564,7 +564,7 @@
                                 {{- with $sess.speakers }}
                                     <div class="session-speakers">
                                         {{- range $spId := . }}
-                                            {{- with index $speakersById (printf "%v" $spId) }}
+                                            {{- with index $speakersById (string $spId) }}
                                                 <div class="session-speaker-chip">
                                                     {{- if .profilePicture }}
                                                         <img

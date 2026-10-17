@@ -6,7 +6,7 @@ TARGET_FILE="data/sessionize.json"
 
 # Extract sessionizeId from hugo.yaml if SESSIONIZE_ID is not already set
 if [[ -z "${SESSIONIZE_ID:-}" ]]; then
-  SESSIONIZE_ID="$(grep -E '^\s*sessionizeId:\s*' "$CONFIG_FILE" | head -n1 | sed -E 's/^\s*sessionizeId:\s*["'\'']?([^"'\''#[:space:]]*)["'\'']?.*$/\1/')"
+  SESSIONIZE_ID="$(grep -E '^[[:space:]]*sessionizeId:[[:space:]]*' "$CONFIG_FILE" | head -n1 | sed -E 's/^[[:space:]]*sessionizeId:[[:space:]]*["'\'']?([^"'\''#[:space:]]*)["'\'']?.*$/\1/')"
 fi
 
 if [[ -z "$SESSIONIZE_ID" ]]; then
@@ -14,7 +14,7 @@ if [[ -z "$SESSIONIZE_ID" ]]; then
   exit 1
 fi
 
-API_URL="https://sessionize.com/api/v2/${SESSIONIZE_ID}/view/all"
+API_URL="https://sessionize.com/api/v2/${SESSIONIZE_ID}/view/All"
 TMP_FILE="$(mktemp)"
 trap 'rm -f "$TMP_FILE"' EXIT
 
