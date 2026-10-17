@@ -1,0 +1,191 @@
+{{- define "main" }}
+    {{- $isEn := eq .Site.Language.Lang "en" }}
+    {{- $event := .Site.Params.themes.event }}
+    {{- $dateLabel := or $event.dateLabel (cond $isEn "Saturday, December 12, 2026" "Sábado 12 de Diciembre de 2026") }}
+    {{- $locationLabel := or $event.location "100% Online" }}
+    {{- $freeLabel := or $event.freeLabel (cond $isEn "100% Free · LATAM Tech Communities" "100% Gratis · Comunidades Tech LATAM") }}
+    {{- $cfpUrl := $event.callToActionSecondary.url }}
+    {{- $cfpLabel := or $event.callToActionSecondary.label (cond $isEn "Submit a talk on Sessionize" "Enviar charla en Sessionize") }}
+    {{- $speakersPageUrl := cond $isEn ("en/speakers/" | relURL) ("speakers/" | relURL) }}
+
+    {{- $sessionize := partial "sessionize-api/view-all.html" (dict "sessionizeId" $event.sessionizeId) }}
+    {{- $speakers := or $sessionize.speakers (slice) }}
+    {{- $rawSessions := or $sessionize.sessions (slice) }}
+
+    {{- $speakersById := dict }}
+    {{- range $sp := $speakers }}
+        {{- $speakersById = merge $speakersById (dict (string $sp.id) $sp) }}
+    {{- end }}
+
+    {{- $approvedSessions := slice }}
+    {{- range $sess := $rawSessions }}
+        {{- if not $sess.isServiceSession }}
+            {{- $approvedSessions = $approvedSessions | append $sess }}
+        {{- end }}
+    {{- end }}
+
+    {{- $roomsById := dict }}
+    {{- range $rm := (or $sessionize.rooms (slice)) }}
+        {{- $roomsById = merge $roomsById (dict (string $rm.id) $rm.name) }}
+    {{- end }}
+
+    {{- $categoriesById := dict }}
+    {{- range $cat := (or $sessionize.categories (slice)) }}
+        {{- range $item := (or $cat.items (slice)) }}
+            {{- $categoriesById = merge $categoriesById (dict (string $item.id) $item.name) }}
+        {{- end }}
+    {{- end }}
+
+    <!-- Schedule / Agenda Page Header -->
+    <section class="subpage-hero">
+        <div class="dc-container">
+            <div class="subpage-hero__inner">
+                <div class="hero-pill">
+                    <span class="hero-pill__badge">{{ if $isEn }}SCHEDULE{{ else }}CRONOGRAMA{{ end }}</span>
+                    <span class="hero-pill__text">{{ $event.title }} · 2026</span>
+                </div>
+
+                <h1 class="subpage-hero__heading">{{ if $isEn }}Schedule &amp; Talks{{ else }}Agenda &amp; Charlas{{ end }}</h1>
+
+                <p class="subpage-hero__intro">
+                    {{- if $isEn }}
+                        Technical sessions, architecture deep dives, and live demos confirmed for
+                        <strong>{{ $dateLabel }}</strong> at <strong>{{ $event.title }}</strong>.
+                    {{- else }}
+                        Sesiones técnicas, deep dives de arquitectura y demostraciones en vivo confirmadas para el
+                        <strong>{{ $dateLabel }}</strong> en <strong>{{ $event.title }}</strong>.
+                    {{- end }}
+                </p>
+
+                <div class="hero-meta">
+                    <span class="hero-meta__item">
+                        <svg class="hero-meta__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <rect x="3" y="4" width="18" height="17" rx="4" stroke="currentColor" stroke-width="2"/>
+                            <path d="M8 2v4M16 2v4M3 9.5h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="8.5" cy="14" r="1.25" fill="currentColor"/>
+                            <circle cx="12" cy="14" r="1.25" fill="currentColor"/>
+                            <circle cx="15.5" cy="14" r="1.25" fill="currentColor"/>
+                        </svg>
+                        <span>{{ $dateLabel }}</span>
+                    </span>
+                    <span class="hero-meta__online">
+                        <span class="hero-meta__online-dot" aria-hidden="true"></span>
+                        <span>{{ $locationLabel }}</span>
+                    </span>
+                    <span class="hero-meta__free">
+                        <span class="hero-meta__free-dot" aria-hidden="true"></span>
+                        <span>{{ $freeLabel }}</span>
+                    </span>
+                </div>
+
+                <div class="hero-cta">
+                    {{- if $cfpUrl }}
+                        <a
+                            class="btn-cfp-primary"
+                            href="{{ $cfpUrl }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <span>{{ $cfpLabel }}</span>
+                            <span class="btn-cfp-primary__arrow" aria-hidden="true">↗</span>
+                        </a>
+                    {{- end }}
+                    <a class="status-badge status-badge--link" href="{{ $speakersPageUrl }}">
+                        <span class="status-badge__dot" aria-hidden="true"></span>
+                        <span>{{ if $isEn }}Meet the Speakers →{{ else }}Conocer a los Oradores →{{ end }}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule / Agenda List Section -->
+    <section id="schedule-section" class="schedule-section section">
+        <div class="dc-container">
+            {{- if gt (len $approvedSessions) 0 }}
+                <div class="schedule-tab-content" role="list">
+                    {{- range $sess := $approvedSessions }}
+                        <article id="session-{{ $sess.id }}" class="item" role="listitem">
+                            <div class="meta">
+                                {{- if and $sess.startsAt $sess.endsAt }}
+                                    <div class="time">
+                                        {{ ($sess.startsAt | time.AsTime).Format "15:04" }} – {{ ($sess.endsAt | time.AsTime).Format "15:04" }}
+                                    </div>
+                                {{- else }}
+                                    <div class="time">{{ $dateLabel }}</div>
+                                {{- end }}
+                                {{- with index $roomsById (string $sess.roomId) }}
+                                    <span class="slot-tag slot-tag--blue">{{ . }}</span>
+                                {{- else }}
+                                    <span class="slot-tag slot-tag--orange">{{ if $isEn }}Confirmed Talk{{ else }}Charla Confirmada{{ end }}</span>
+                                {{- end }}
+                            </div>
+
+                            <div class="content">
+                                {{- with $sess.categoryItems }}
+                                    <div class="session-tags">
+                                        {{- range $cid := . }}
+                                            {{- with index $categoriesById (string $cid) }}
+                                                <span class="slot-tag slot-tag--ink">{{ . }}</span>
+                                            {{- end }}
+                                        {{- end }}
+                                    </div>
+                                {{- end }}
+
+                                <h2 class="title">{{ $sess.title }}</h2>
+
+                                {{- with $sess.description }}
+                                    <p class="desc">{{ . }}</p>
+                                {{- end }}
+
+                                {{- with $sess.speakers }}
+                                    <div class="session-speakers">
+                                        {{- range $spId := . }}
+                                            {{- with index $speakersById (string $spId) }}
+                                                <a class="session-speaker-chip session-speaker-chip--link" href="{{ $speakersPageUrl }}">
+                                                    {{- if .profilePicture }}
+                                                        <img
+                                                            class="session-speaker-chip__avatar"
+                                                            src="{{ .profilePicture }}"
+                                                            alt="{{ .fullName }}"
+                                                            width="32"
+                                                            height="32"
+                                                            loading="lazy"
+                                                        />
+                                                    {{- end }}
+                                                    <div class="session-speaker-chip__info">
+                                                        <strong class="session-speaker-chip__name">{{ .fullName }}</strong>
+                                                        {{- with .tagLine }}
+                                                            <span class="session-speaker-chip__role">{{ . }}</span>
+                                                        {{- end }}
+                                                    </div>
+                                                </a>
+                                            {{- end }}
+                                        {{- end }}
+                                    </div>
+                                {{- end }}
+                            </div>
+                        </article>
+                    {{- end }}
+                </div>
+            {{- else }}
+                <p class="section-intro single-col-max">
+                    {{- if $isEn }}
+                        The detailed schedule of talks, technical sessions, and time slots for
+                        <strong>{{ $dateLabel }}</strong> will be announced soon.
+                    {{- else }}
+                        La agenda detallada de charlas, sesiones técnicas y horarios para el
+                        <strong>{{ $dateLabel }}</strong> se anunciará próximamente.
+                    {{- end }}
+                </p>
+
+                <div class="schedule-nav" role="presentation">
+                    <div class="schedule-nav__pill">
+                        <span class="heading">{{ $dateLabel }}</span>
+                        <span class="meta">{{ if $isEn }}Schedule to be announced · In preparation{{ else }}Agenda por anunciar · En preparación{{ end }}</span>
+                    </div>
+                </div>
+            {{- end }}
+        </div>
+    </section>
+{{- end }}
