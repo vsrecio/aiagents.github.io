@@ -38,23 +38,15 @@ languages:
                     eyebrow: PEOPLE — IDEAS — AGENTS — REAL IMPACT
                     slogan: Ideas que construyen el futuro de los agentes de IA. Un evento 100% gratis para las comunidades tecnológicas de LATAM.
                     dateLabel: Sábado 12 de Diciembre de 2026
-                    statusBadge: Acceso 100% gratuito · Registro y convocatoria próximamente
+                    statusBadge: Call for Speakers abierto · Acceso 100% gratuito
                     location: '100% Online'
                     freeLabel: '100% Gratis · Comunidades Tech LATAM'
                     description: |
                         **AI Agents Day** es un encuentro técnico **100% online y 100% GRATIS para las comunidades tecnológicas de LATAM**,
                         dedicado a la ingeniería de agentes de inteligencia artificial: estándares abiertos, conectividad segura,
-                        aislamiento en runtime y gobernanza para la autonomía en producción. Te esperamos el **sábado 12 de diciembre de 2026**
+                        aislamiento en runtime, arquitecturas multi-agente y gobernanza para la autonomía en producción. Te esperamos el **sábado 12 de diciembre de 2026**
                         para explorar **Model Context Protocol (MCP)**, **AGENTS.md**, **Agent2Agent (A2A)**,
-                        **agentgateway**, **Agent Router**, **Docker Sandboxes (MicroVMs)** y **AI Governance**.
-                    benefitsHeading: ¿Por qué participar?
-                    benefits:
-                        - 'Model Context Protocol (MCP): integración fluida entre aplicaciones LLM y fuentes de datos externas'
-                        - 'AGENTS.md: el formato abierto y directo para guiar agentes de programación en tus repositorios'
-                        - 'Agent2Agent (A2A): comunicación, colaboración e intercambio seguro de tareas entre agentes multi-plataforma'
-                        - 'agentgateway & Agent Router (Envoy): conectividad segura, enrutamiento, control de acceso y gestión de herramientas MCP'
-                        - 'Docker Sandboxes (MicroVM Isolation): aislamiento de red y filesystem a nivel de runtime para cada sesión de agente'
-                        - 'AI Governance — Unlock Agent Autonomy, Safely: políticas, observabilidad y guardrails para autonomía segura en producción'
+                        **agentgateway**, **Agent Router**, **Docker Sandboxes (MicroVMs)**, **ADK Agents**, **Arquitecturas de Agentes** y **AI Governance**.
                     stats:
                         - number: 'MCP · A2A'
                           unit: Protocolos & AGENTS.md
@@ -67,51 +59,45 @@ languages:
                     aboutUs: |
                         Más información sobre el evento estará disponible pronto.
                     callToActionSecondary:
-                        label: ¡Quiero ser speaker!
+                        label: Enviar charla en Sessionize
+                        url: https://sessionize.com/ai-agents-day/
 
-    # English version disabled for now (landing-only, single language).
-    # Set `disabled: false` to bring it back.
+    # English version (/en/)
     en:
         languageName: English
         weight: 2
-        disabled: true
+        disabled: false
         params:
             description: |
                 AI Agents Day — Ideas building the future of AI agents. Saturday, December 12, 2026 · 100% Online & 100% Free for LATAM tech communities.
             themes:
                 event:
                     eyebrow: PEOPLE — IDEAS — AGENTS — REAL IMPACT
-                    slogan: Ideas building the future of AI agents. 100% free for LATAM tech communities.
+                    slogan: Ideas building the future of AI agents. A 100% free event for LATAM tech communities.
                     dateLabel: Saturday, December 12, 2026
-                    statusBadge: 100% Free Access · Registration and CFP coming soon
+                    statusBadge: Call for Speakers Open · 100% Free Access
                     location: '100% Online'
                     freeLabel: '100% Free · LATAM Tech Communities'
                     description: |
-                        **AI Agents Day** is a **100% online and 100% free conference for LATAM tech communities**, dedicated to artificial intelligence agents:
-                        how they are designed, built and taken to production. Join us on
-                        **Saturday, December 12, 2026** to explore architectures, protocols, tooling
-                        and real engineering lessons.
-                    benefitsHeading: Why Attend
-                    benefits:
-                        - Reasoning patterns and architectures for autonomous agent systems
-                        - Tool Use, memory architectures and Model Context Protocol (MCP)
-                        - Multi-agent orchestration, state control and reliable execution
-                        - Rigorous evaluation, observability, tracing and production deployment
-                        - Real-world engineering lessons building, testing and operating agents
-                        - Connect with engineers, researchers and AI software builders
+                        **AI Agents Day** is a **100% online and 100% FREE technical conference for LATAM tech communities**,
+                        dedicated to AI agent engineering: open standards, secure connectivity,
+                        runtime isolation, multi-agent architectures, and governance for production autonomy. Join us on **Saturday, December 12, 2026**
+                        to explore **Model Context Protocol (MCP)**, **AGENTS.md**, **Agent2Agent (A2A)**,
+                        **agentgateway**, **Agent Router**, **Docker Sandboxes (MicroVMs)**, **ADK Agents**, **Agentic Architectures**, and **AI Governance**.
                     stats:
-                        - number: '01'
-                          unit: Agentic Architecture
-                        - number: '02'
-                          unit: Tool Use & MCP
-                        - number: '03'
-                          unit: Multi-Agent Systems
-                        - number: '04'
-                          unit: Agents in Production
+                        - number: 'MCP · A2A'
+                          unit: Protocols & AGENTS.md
+                        - number: 'GATEWAY'
+                          unit: agentgateway & Agent Router
+                        - number: 'MICROVM'
+                          unit: Docker Sandboxes Runtime
+                        - number: '100% FREE'
+                          unit: LATAM Tech Communities
                     aboutUs: |
                         More information about the event will be added soon.
                     callToActionSecondary:
-                        label: Become a speaker!
+                        label: Submit a talk on Sessionize
+                        url: https://sessionize.com/ai-agents-day/
 
     # The theme ships German defaults; keep it disabled.
     de:
@@ -123,8 +109,8 @@ params:
         - logos/aiagents-day.svg
     themes:
         event:
-            # 👇 Sessionize API ID. Leave empty until the event exists in Sessionize.
-            sessionizeId:
+            # 👇 Sessionize API ID (https://sessionize.com/app/organizer/schedule/api/0)
+            sessionizeId: zoi3u8ka
             title: AI Agents Day
             shortTitle: AI Agents Day
             startDate: 2026-12-12
@@ -142,7 +128,7 @@ params:
                     url:
                 enableBanner: false
             callToActionSecondary:
-                url:
+                url: https://sessionize.com/ai-agents-day/
             socialLinks:
                 xUrl:
                 facebookUrl:

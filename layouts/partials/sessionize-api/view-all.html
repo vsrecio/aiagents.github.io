@@ -1,0 +1,23 @@
+{{ $input := . }}
+{{ $data := dict }}
+
+{{ if eq $input.sessionizeId "test" }}
+    {{ $path := "test/sessionize-view-all.json" }}
+    {{ with resources.Get $path }}
+        {{ $data = . | transform.Unmarshal }}
+    {{ else }}
+        {{ errorf "Unable to get test data resource %q." $path }}
+    {{ end }}
+{{ else if site.Data.sessionize }}
+    {{ $data = site.Data.sessionize }}
+{{ else }}
+    {{ $url := printf "https://sessionize.com/api/v2/%s/view/all" $input.sessionizeId }}
+    {{ with resources.GetRemote $url }}
+        {{ $data = . | transform.Unmarshal }}
+    {{ else }}
+        {{ warnf "Unable to get remote resource %s; using empty Sessionize data." $url }}
+        {{ $data = dict "sessions" (slice) "speakers" (slice) "categories" (slice) "rooms" (slice) }}
+    {{ end }}
+{{ end }}
+
+{{ return $data }}

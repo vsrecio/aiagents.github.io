@@ -1,8 +1,9 @@
 {{- define "main" }}
+    {{- $isEn := eq .Site.Language.Lang "en" }}
     {{- $event := .Site.Params.themes.event }}
-    {{- $dateLabel := or $event.dateLabel "Sábado 12 de Diciembre de 2026" }}
+    {{- $dateLabel := or $event.dateLabel (cond $isEn "Saturday, December 12, 2026" "Sábado 12 de Diciembre de 2026") }}
     {{- $locationLabel := or $event.location "100% Online" }}
-    {{- $freeLabel := or $event.freeLabel "100% Gratis · Comunidades Tech LATAM" }}
+    {{- $freeLabel := or $event.freeLabel (cond $isEn "100% Free · LATAM Tech Communities" "100% Gratis · Comunidades Tech LATAM") }}
 
     <!-- Hero Block (DevConf #hero-block — Modern, Airy & Rounded with Brand Palette) -->
     <section id="hero-block" class="hero-block">
@@ -10,7 +11,7 @@
         <div class="dc-container hero-grid">
             <div class="hero-text-block">
                 <div class="hero-pill">
-                    <span class="hero-pill__badge">EDICIÓN 2026</span>
+                    <span class="hero-pill__badge">{{ if $isEn }}2026 EDITION{{ else }}EDICIÓN 2026{{ end }}</span>
                     <span class="hero-pill__text">People · Ideas · Agents · Real Impact</span>
                 </div>
 
@@ -39,14 +40,27 @@
 
                 <p class="hero-intro">{{ $event.slogan }}</p>
 
-                {{- with $event.statusBadge }}
-                    <div class="hero-cta">
+                {{- $cfpUrl := $event.callToActionSecondary.url }}
+                {{- $cfpLabel := or $event.callToActionSecondary.label (cond $isEn "Submit a talk on Sessionize" "Enviar charla en Sessionize") }}
+                <div class="hero-cta">
+                    {{- if $cfpUrl }}
+                        <a
+                            class="btn-cfp-primary"
+                            href="{{ $cfpUrl }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <span>{{ $cfpLabel }}</span>
+                            <span class="btn-cfp-primary__arrow" aria-hidden="true">↗</span>
+                        </a>
+                    {{- end }}
+                    {{- with $event.statusBadge }}
                         <span class="status-badge">
                             <span class="status-badge__dot" aria-hidden="true"></span>
                             <span>{{ . }}</span>
                         </span>
-                    </div>
-                {{- end }}
+                    {{- end }}
+                </div>
             </div>
 
             <!-- Decorative Modern Agentic Card (Rounded Window + Official Logo + Bento Stack) -->
@@ -68,31 +82,6 @@
                             height="150"
                         />
                     </div>
-
-                    <div class="agent-card__body" aria-hidden="true">
-                        <div class="agent-node agent-node--primary">
-                            <span class="agent-node__tag">01 · Protocols &amp; Specs</span>
-                            <strong>Model Context Protocol (MCP) &amp; AGENTS.md</strong>
-                            <small>Integración de herramientas, datos y guía para coding agents</small>
-                        </div>
-                        <div class="agent-node-row">
-                            <div class="agent-node agent-node--secondary">
-                                <span class="agent-node__tag">02 · Interop &amp; Gateway</span>
-                                <strong>A2A · agentgateway</strong>
-                                <small>Agent Router sobre Envoy</small>
-                            </div>
-                            <div class="agent-node agent-node--tertiary">
-                                <span class="agent-node__tag">03 · Runtime</span>
-                                <strong>Docker MicroVMs</strong>
-                                <small>Sandbox por sesión</small>
-                            </div>
-                        </div>
-                        <div class="agent-node agent-node--accent">
-                            <span class="agent-node__tag">04 · Trust &amp; Safety</span>
-                            <strong>AI Governance: Unlock Agent Autonomy, Safely</strong>
-                            <small>Políticas, observabilidad, guardrails y despliegue seguro</small>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -100,7 +89,7 @@
 
     <!-- Stats / Thematic Pillars Block (DevConf .stats-block) -->
     {{- with $event.stats }}
-        <div id="pillars-section" class="stats-block" aria-label="Pilares temáticos">
+        <div id="pillars-section" class="stats-block" aria-label="{{ if $isEn }}Thematic pillars{{ else }}Pilares temáticos{{ end }}">
             <div class="dc-container">
                 <div class="stats-grid">
                     {{- range . }}
@@ -120,32 +109,13 @@
     <section id="about-section" class="about-section section">
         <div class="dc-container">
             <div class="section-header">
-                <span class="section-kicker">EL EVENTO</span>
-                <h2 class="section-heading">Acerca de {{ $event.title }}</h2>
+                <span class="section-kicker">{{ if $isEn }}THE EVENT{{ else }}EL EVENTO{{ end }}</span>
+                <h2 class="section-heading">{{ if $isEn }}About {{ $event.title }}{{ else }}Acerca de {{ $event.title }}{{ end }}</h2>
             </div>
 
             <div class="section-intro single-col-max">
                 {{ $event.description | markdownify }}
             </div>
-
-            {{- with $event.benefits }}
-                <div class="benefits-list single-col-max">
-                    <h3 class="benefits-heading">{{ or $event.benefitsHeading "¿Por qué participar?" }}</h3>
-                    <ul class="benefits-grid">
-                        {{- range . }}
-                            <li class="benefits-item">
-                                <span class="benefits-icon" aria-hidden="true">
-                                    <svg viewBox="0 0 20 20" fill="none">
-                                        <circle cx="10" cy="10" r="9" fill="currentColor" opacity="0.14"/>
-                                        <path d="M6.5 10.25L8.9 12.65L13.75 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </span>
-                                <span class="benefits-text">{{ . }}</span>
-                            </li>
-                        {{- end }}
-                    </ul>
-                </div>
-            {{- end }}
         </div>
     </section>
 
@@ -154,12 +124,17 @@
         <div class="dc-container">
             <div class="section-header">
                 <span class="section-kicker">OPEN AGENTIC STACK</span>
-                <h2 class="section-heading">Estándares &amp; Conceptos Agentic</h2>
+                <h2 class="section-heading">{{ if $isEn }}Agentic Standards &amp; Concepts{{ else }}Estándares &amp; Conceptos Agentic{{ end }}</h2>
             </div>
 
             <p class="section-intro single-col-max">
-                La nueva generación de sistemas autónomos se construye sobre protocolos abiertos,
-                gateways de conectividad segura, aislamiento con MicroVMs y gobernanza verificable.
+                {{- if $isEn }}
+                    The next generation of autonomous systems is built on open protocols, secure connectivity
+                    gateways, MicroVM runtime isolation, and verifiable governance.
+                {{- else }}
+                    La nueva generación de sistemas autónomos se construye sobre protocolos abiertos,
+                    gateways de conectividad segura, aislamiento con MicroVMs y gobernanza verificable.
+                {{- end }}
             </p>
 
             <div class="standards-grid">
@@ -179,8 +154,13 @@
                         Model Context Protocol (MCP) is a protocol for seamless integration between LLM applications and external data sources.
                     </p>
                     <p class="standard-card__desc">
-                        Protocolo abierto que estandariza cómo las aplicaciones con LLMs descubren y se
-                        conectan de forma fluida con herramientas y fuentes de datos externas.
+                        {{- if $isEn }}
+                            Open standard that unifies how LLM-powered applications discover, authenticate, and
+                            connect seamlessly to external tools and data sources.
+                        {{- else }}
+                            Protocolo abierto que estandariza cómo las aplicaciones con LLMs descubren y se
+                            conectan de forma fluida con herramientas y fuentes de datos externas.
+                        {{- end }}
                     </p>
                 </article>
 
@@ -200,8 +180,13 @@
                         AGENTS.md is a simple, open format for guiding coding agents.
                     </p>
                     <p class="standard-card__desc">
-                        Formato abierto y declarativo dentro del repositorio para guiar a los agentes de
-                        programación sobre arquitectura, convenciones y flujos de validación.
+                        {{- if $isEn }}
+                            Declarative, repository-native open format to guide coding agents on architecture,
+                            conventions, build commands, and verification workflows.
+                        {{- else }}
+                            Formato abierto y declarativo dentro del repositorio para guiar a los agentes de
+                            programación sobre arquitectura, convenciones y flujos de validación.
+                        {{- end }}
                     </p>
                 </article>
 
@@ -221,8 +206,13 @@
                         Agent2Agent (A2A) is an open protocol that enables AI agents to communicate, collaborate, and securely exchange information and tasks across different platforms and frameworks.
                     </p>
                     <p class="standard-card__desc">
-                        Interoperabilidad abierta para que agentes construidos en distintos frameworks
-                        colaboren, deleguen tareas e intercambien contexto de manera segura.
+                        {{- if $isEn }}
+                            Open interoperability protocol enabling agents built across diverse frameworks to
+                            collaborate, delegate tasks, and exchange context securely.
+                        {{- else }}
+                            Interoperabilidad abierta para que agentes construidos en distintos frameworks
+                            colaboren, deleguen tareas e intercambien contexto de manera segura.
+                        {{- end }}
                     </p>
                 </article>
 
@@ -242,8 +232,13 @@
                         agentgateway enables secure, scalable connections between AI agents, models, tools, and APIs across ecosystems.
                     </p>
                     <p class="standard-card__desc">
-                        Plano de conectividad seguro y escalable entre agentes de IA, modelos, herramientas
-                        y APIs empresariales a través de múltiples ecosistemas.
+                        {{- if $isEn }}
+                            Secure, scalable connectivity plane bridging AI agents, foundation models, tools, and
+                            enterprise APIs across multi-cloud ecosystems.
+                        {{- else }}
+                            Plano de conectividad seguro y escalable entre agentes de IA, modelos, herramientas
+                            y APIs empresariales a través de múltiples ecosistemas.
+                        {{- end }}
                     </p>
                 </article>
 
@@ -263,8 +258,13 @@
                         Agent Router is an open source AI gateway built on Envoy that connects applications to models and MCP tools while platform teams manage access, routing, and usage.
                     </p>
                     <p class="standard-card__desc">
-                        AI gateway open source sobre Envoy que conecta aplicaciones con modelos y herramientas
-                        MCP mientras los equipos de plataforma gestionan acceso, ruteo y consumo.
+                        {{- if $isEn }}
+                            Envoy-based open source AI gateway connecting applications to models and MCP tools while
+                            platform teams enforce access, routing, and usage policies.
+                        {{- else }}
+                            AI gateway open source sobre Envoy que conecta aplicaciones con modelos y herramientas
+                            MCP mientras los equipos de plataforma gestionan acceso, ruteo y consumo.
+                        {{- end }}
                     </p>
                 </article>
 
@@ -284,25 +284,84 @@
                         MicroVM isolation for every agent session, local or cloud. Network and filesystem locked down at the runtime.
                     </p>
                     <p class="standard-card__desc">
-                        Aislamiento dedicado con MicroVMs por cada sesión de agente, local o en la nube, con
-                        red y sistema de archivos restringidos directamente desde el runtime.
+                        {{- if $isEn }}
+                            Dedicated MicroVM isolation for every agent session—local or cloud—with network and
+                            filesystem access locked down directly at the runtime layer.
+                        {{- else }}
+                            Aislamiento dedicado con MicroVMs por cada sesión de agente, local o en la nube, con
+                            red y sistema de archivos restringidos directamente desde el runtime.
+                        {{- end }}
                     </p>
                 </article>
 
-                <!-- 07: AI Governance: Unlock Agent Autonomy, Safely -->
+                <!-- 07: ADK Agents (Agent Development Kit) -->
+                <article class="standard-card standard-card--wide">
+                    <div class="standard-card__top">
+                        <span class="standard-card__badge standard-card__badge--blue">Framework · 07</span>
+                        <span class="standard-card__domain">google.github.io/adk-docs</span>
+                    </div>
+                    <h3 class="standard-card__title">
+                        <a href="https://google.github.io/adk-docs/" target="_blank" rel="noopener noreferrer">
+                            <span>ADK Agents · Agent Development Kit</span>
+                            <span class="standard-card__arrow" aria-hidden="true">↗</span>
+                        </a>
+                    </h3>
+                    <p class="standard-card__en">
+                        Code-first toolkit for building, orchestrating, evaluating, and deploying sophisticated multi-agent systems.
+                    </p>
+                    <p class="standard-card__desc">
+                        {{- if $isEn }}
+                            Modular, code-first framework to design, orchestrate, test, and deploy single and
+                            multi-agent workflows with native MCP tools, A2A interoperability, and bidirectional streaming.
+                        {{- else }}
+                            Framework modular y code-first para diseñar, orquestar, evaluar y desplegar agentes
+                            individuales y sistemas multi-agente con soporte nativo para herramientas MCP, interoperabilidad A2A y streaming bidireccional.
+                        {{- end }}
+                    </p>
+                </article>
+
+                <!-- 08: Agentic Architectures & Design Patterns -->
+                <article class="standard-card standard-card--wide">
+                    <div class="standard-card__top">
+                        <span class="standard-card__badge standard-card__badge--ink">{{ if $isEn }}Architecture · 08{{ else }}Arquitectura · 08{{ end }}</span>
+                        <span class="standard-card__domain">Multi-Agent Systems</span>
+                    </div>
+                    <h3 class="standard-card__title">
+                        {{ if $isEn }}Agentic Architectures &amp; Patterns{{ else }}Arquitecturas &amp; Patrones de Agentes{{ end }}
+                    </h3>
+                    <p class="standard-card__en">
+                        Hierarchical, sequential, parallel, and loop orchestrations with context engineering, memory, and state management.
+                    </p>
+                    <p class="standard-card__desc">
+                        {{- if $isEn }}
+                            Reference architectures for production agents: supervisor/sub-agent delegation, deterministic
+                            and dynamic routing, long-term memory, context compaction, and human-in-the-loop workflows.
+                        {{- else }}
+                            Arquitecturas de referencia para agentes en producción: delegación supervisor/sub-agentes,
+                            enrutamiento determinista y dinámico, gestión de memoria y estado, ingeniería de contexto y flujos human-in-the-loop.
+                        {{- end }}
+                    </p>
+                </article>
+
+                <!-- 09: AI Governance: Unlock Agent Autonomy, Safely -->
                 <article class="standard-card standard-card--featured">
                     <div class="standard-card--featured__main">
                         <div class="standard-card__top">
-                            <span class="standard-card__badge standard-card__badge--orange">Governance · 07</span>
+                            <span class="standard-card__badge standard-card__badge--orange">{{ if $isEn }}Governance · 09{{ else }}Gobernanza · 09{{ end }}</span>
                             <span class="standard-card__domain standard-card__domain--light">Autonomy &amp; Safety</span>
                         </div>
                         <h3 class="standard-card--featured__title">
                             AI Governance: Unlock Agent Autonomy, Safely
                         </h3>
                         <p class="standard-card--featured__desc">
-                            Desbloquear la autonomía de los agentes en producción requiere gobernanza desde la
-                            arquitectura: políticas de mínimo privilegio, identidad verificable por agente,
-                            auditoría sobre llamadas MCP/A2A y ejecución confinada en MicroVMs.
+                            {{- if $isEn }}
+                                Unlocking agent autonomy in production demands governance by design: least-privilege
+                                policies, verifiable agent identity, audited MCP/A2A tool calls, and MicroVM-confined execution.
+                            {{- else }}
+                                Desbloquear la autonomía de los agentes en producción requiere gobernanza desde la
+                                arquitectura: políticas de mínimo privilegio, identidad verificable por agente,
+                                auditoría sobre llamadas MCP/A2A y ejecución confinada en MicroVMs.
+                            {{- end }}
                         </p>
                     </div>
                     <div class="standard-card--featured__pillars">
@@ -315,95 +374,265 @@
         </div>
     </section>
 
-    <!-- Schedule / Agenda Section (#schedule-section — Clean upcoming state) -->
-    <section id="schedule-section" class="schedule-section section">
+    {{- $sessionize := or site.Data.sessionize (dict "sessions" (slice) "speakers" (slice) "categories" (slice) "rooms" (slice)) }}
+    {{- $speakers := or $sessionize.speakers (slice) }}
+    {{- $rawSessions := or $sessionize.sessions (slice) }}
+
+    {{- /* Build lookup maps by stringified ID for speakers, sessions, rooms, and category items */ -}}
+    {{- $speakersById := dict }}
+    {{- range $sp := $speakers }}
+        {{- $speakersById = merge $speakersById (dict (printf "%v" $sp.id) $sp) }}
+    {{- end }}
+
+    {{- $sessionsById := dict }}
+    {{- $approvedSessions := slice }}
+    {{- range $sess := $rawSessions }}
+        {{- $sessionsById = merge $sessionsById (dict (printf "%v" $sess.id) $sess) }}
+        {{- if not $sess.isServiceSession }}
+            {{- $approvedSessions = $approvedSessions | append $sess }}
+        {{- end }}
+    {{- end }}
+
+    {{- $roomsById := dict }}
+    {{- range $rm := (or $sessionize.rooms (slice)) }}
+        {{- $roomsById = merge $roomsById (dict (printf "%v" $rm.id) $rm.name) }}
+    {{- end }}
+
+    {{- $categoriesById := dict }}
+    {{- range $cat := (or $sessionize.categories (slice)) }}
+        {{- range $item := (or $cat.items (slice)) }}
+            {{- $categoriesById = merge $categoriesById (dict (printf "%v" $item.id) $item.name) }}
+        {{- end }}
+    {{- end }}
+
+    <!-- Speakers Section (#speakers-section — Auto-populated from data/sessionize.json) -->
+    <section id="speakers-section" class="speakers-section section">
         <div class="dc-container">
             <div class="section-header">
-                <span class="section-kicker">CRONOGRAMA</span>
-                <h2 class="section-heading">Agenda</h2>
+                <span class="section-kicker">SPEAKERS</span>
+                <h2 class="section-heading">{{ if $isEn }}Speakers{{ else }}Oradores{{ end }}</h2>
             </div>
 
-            <p class="section-intro single-col-max">
-                La agenda detallada de charlas, sesiones técnicas y horarios para el
-                <strong>{{ $dateLabel }}</strong> se anunciará próximamente.
-            </p>
+            {{- if gt (len $speakers) 0 }}
+                <p class="section-intro single-col-max">
+                    {{- if $isEn }}
+                        Engineers, architects, and researchers sharing real-world implementations and production
+                        lessons on AI agents at <strong>{{ $event.title }}</strong>.
+                    {{- else }}
+                        Ingenieros, arquitectos e investigadores que compartirán sus implementaciones y aprendizajes
+                        sobre agentes de IA en <strong>{{ $event.title }}</strong>.
+                    {{- end }}
+                </p>
 
-            <div class="schedule-nav" role="presentation">
-                <div class="schedule-nav__pill">
-                    <span class="heading">{{ $dateLabel }}</span>
-                    <span class="meta">Agenda por anunciar · En preparación</span>
+                <div class="speakers-grid" role="list">
+                    {{- range $sp := $speakers }}
+                        <article class="speaker-card" role="listitem">
+                            <div class="speaker-card__header">
+                                {{- if $sp.profilePicture }}
+                                    <img
+                                        class="speaker-card__avatar"
+                                        src="{{ $sp.profilePicture }}"
+                                        alt="{{ $sp.fullName }}"
+                                        width="72"
+                                        height="72"
+                                        loading="lazy"
+                                    />
+                                {{- else }}
+                                    <div class="speaker-card__avatar speaker-card__avatar--fallback" aria-hidden="true">
+                                        {{ substr (or $sp.firstName $sp.fullName "S") 0 1 }}
+                                    </div>
+                                {{- end }}
+                                <div class="speaker-card__identity">
+                                    <h3 class="speaker-card__name">{{ $sp.fullName }}</h3>
+                                    {{- with $sp.tagLine }}
+                                        <p class="speaker-card__tagline">{{ . }}</p>
+                                    {{- end }}
+                                </div>
+                            </div>
+
+                            {{- with $sp.bio }}
+                                <p class="speaker-card__bio">{{ . }}</p>
+                            {{- end }}
+
+                            {{- with $sp.sessions }}
+                                <div class="speaker-card__talks">
+                                    <span class="speaker-card__talks-label">{{ if $isEn }}Approved Talk{{ else }}Charla aprobada{{ end }}</span>
+                                    {{- range $sid := . }}
+                                        {{- with index $sessionsById (printf "%v" $sid) }}
+                                            <div class="speaker-card__talk-title">{{ .title }}</div>
+                                        {{- end }}
+                                    {{- end }}
+                                </div>
+                            {{- end }}
+
+                            {{- with $sp.links }}
+                                <div class="speaker-card__links">
+                                    {{- range . }}
+                                        <a
+                                            class="speaker-card__link"
+                                            href="{{ .url }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <span>{{ or .title .linkType (cond $isEn "Profile" "Perfil") }}</span>
+                                            <span aria-hidden="true">↗</span>
+                                        </a>
+                                    {{- end }}
+                                </div>
+                            {{- end }}
+                        </article>
+                    {{- end }}
                 </div>
-            </div>
+            {{- else }}
+                <p class="section-intro single-col-max">
+                    {{- if $isEn }}
+                        Speakers and their sessions are published automatically as talks are approved on
+                        <a href="{{ $cfpUrl }}" target="_blank" rel="noopener noreferrer"><strong>Sessionize ↗</strong></a>.
+                    {{- else }}
+                        Los oradores y sus charlas se publicarán automáticamente conforme sean aprobados en
+                        <a href="{{ $cfpUrl }}" target="_blank" rel="noopener noreferrer"><strong>Sessionize ↗</strong></a>.
+                    {{- end }}
+                </p>
+
+                <div class="schedule-nav" role="presentation">
+                    <a
+                        class="schedule-nav__pill schedule-nav__pill--link"
+                        href="{{ $cfpUrl }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <span class="heading">{{ if $isEn }}Call for Speakers open on Sessionize ↗{{ else }}Convocatoria abierta en Sessionize ↗{{ end }}</span>
+                        <span class="meta">{{ if $isEn }}sessionize.com/ai-agents-day · Submit your talk here{{ else }}sessionize.com/ai-agents-day · Postula tu charla aquí{{ end }}</span>
+                    </a>
+                </div>
+            {{- end }}
         </div>
     </section>
 
-    <!-- Call for Papers / Speakers Section (#cfp-section) -->
-    <section id="cfp-section" class="cfp-section section section--tinted">
+    <!-- Schedule / Agenda Section (#schedule-section — Auto-populated from data/sessionize.json) -->
+    <section id="schedule-section" class="schedule-section section section--tinted">
         <div class="dc-container">
             <div class="section-header">
-                <span class="section-kicker">CALL FOR PAPERS</span>
-                <h2 class="section-heading">Convocatoria de Speakers</h2>
+                <span class="section-kicker">{{ if $isEn }}SCHEDULE{{ else }}CRONOGRAMA{{ end }}</span>
+                <h2 class="section-heading">{{ if $isEn }}Schedule &amp; Talks{{ else }}Agenda &amp; Charlas{{ end }}</h2>
             </div>
 
-            <p class="section-intro single-col-max">
-                Buscamos propuestas con rigor de ingeniería enfocadas en implementaciones reales,
-                decisiones de arquitectura, benchmarks reproducibles y aprendizajes en producción.
-            </p>
+            {{- if gt (len $approvedSessions) 0 }}
+                <p class="section-intro single-col-max">
+                    {{- if $isEn }}
+                        Confirmed talks and technical sessions for <strong>{{ $dateLabel }}</strong>.
+                    {{- else }}
+                        Charlas y sesiones técnicas confirmadas para el <strong>{{ $dateLabel }}</strong>.
+                    {{- end }}
+                </p>
 
-            <div class="cfp-grid">
-                <div class="cfp-tracks">
-                    <div class="cfp-track-card">
-                        <span class="cfp-track-card__code">Formato 01</span>
-                        <h3 class="cfp-track-card__title">Keynotes &amp; Deep Dives</h3>
-                        <p class="cfp-track-card__desc">
-                            Sesiones técnicas de arquitectura, diseño de protocolos (MCP, A2A), evaluación
-                            sistemática y casos de estudio en entornos productivos.
-                        </p>
-                    </div>
-                    <div class="cfp-track-card">
-                        <span class="cfp-track-card__code">Formato 02</span>
-                        <h3 class="cfp-track-card__title">Live Engineering &amp; Demos</h3>
-                        <p class="cfp-track-card__desc">
-                            Demostraciones de código en vivo: construcción de servidores MCP, configuración de
-                            AGENTS.md, Agent Router, Docker Sandboxes y observabilidad.
-                        </p>
+                <div class="schedule-tab-content" role="list">
+                    {{- range $sess := $approvedSessions }}
+                        <article class="item" role="listitem">
+                            <div class="meta">
+                                {{- if and $sess.startsAt $sess.endsAt }}
+                                    <div class="time">
+                                        {{ ($sess.startsAt | time.AsTime).Format "15:04" }} – {{ ($sess.endsAt | time.AsTime).Format "15:04" }}
+                                    </div>
+                                {{- else }}
+                                    <div class="time">{{ $dateLabel }}</div>
+                                {{- end }}
+                                {{- with index $roomsById (printf "%v" $sess.roomId) }}
+                                    <span class="slot-tag slot-tag--blue">{{ . }}</span>
+                                {{- else }}
+                                    <span class="slot-tag slot-tag--orange">{{ if $isEn }}Confirmed Talk{{ else }}Charla Confirmada{{ end }}</span>
+                                {{- end }}
+                            </div>
+
+                            <div class="content">
+                                {{- with $sess.categoryItems }}
+                                    <div class="session-tags">
+                                        {{- range $cid := . }}
+                                            {{- with index $categoriesById (printf "%v" $cid) }}
+                                                <span class="slot-tag slot-tag--ink">{{ . }}</span>
+                                            {{- end }}
+                                        {{- end }}
+                                    </div>
+                                {{- end }}
+
+                                <h3 class="title">{{ $sess.title }}</h3>
+
+                                {{- with $sess.description }}
+                                    <p class="desc">{{ . }}</p>
+                                {{- end }}
+
+                                {{- with $sess.speakers }}
+                                    <div class="session-speakers">
+                                        {{- range $spId := . }}
+                                            {{- with index $speakersById (printf "%v" $spId) }}
+                                                <div class="session-speaker-chip">
+                                                    {{- if .profilePicture }}
+                                                        <img
+                                                            class="session-speaker-chip__avatar"
+                                                            src="{{ .profilePicture }}"
+                                                            alt="{{ .fullName }}"
+                                                            width="32"
+                                                            height="32"
+                                                            loading="lazy"
+                                                        />
+                                                    {{- end }}
+                                                    <div class="session-speaker-chip__info">
+                                                        <strong class="session-speaker-chip__name">{{ .fullName }}</strong>
+                                                        {{- with .tagLine }}
+                                                            <span class="session-speaker-chip__role">{{ . }}</span>
+                                                        {{- end }}
+                                                    </div>
+                                                </div>
+                                            {{- end }}
+                                        {{- end }}
+                                    </div>
+                                {{- end }}
+                            </div>
+                        </article>
+                    {{- end }}
+                </div>
+            {{- else }}
+                <p class="section-intro single-col-max">
+                    {{- if $isEn }}
+                        The detailed schedule of talks, technical sessions, and time slots for
+                        <strong>{{ $dateLabel }}</strong> will be announced soon.
+                    {{- else }}
+                        La agenda detallada de charlas, sesiones técnicas y horarios para el
+                        <strong>{{ $dateLabel }}</strong> se anunciará próximamente.
+                    {{- end }}
+                </p>
+
+                <div class="schedule-nav" role="presentation">
+                    <div class="schedule-nav__pill">
+                        <span class="heading">{{ $dateLabel }}</span>
+                        <span class="meta">{{ if $isEn }}Schedule to be announced · In preparation{{ else }}Agenda por anunciar · En preparación{{ end }}</span>
                     </div>
                 </div>
-
-                <aside class="cfp-aside">
-                    <div class="cfp-status-box">
-                        <span class="cfp-status-box__kicker">Estado del CFP</span>
-                        <div class="cfp-status-box__title">Apertura Próximamente</div>
-                        <p class="cfp-status-box__text">
-                            El comité de programa publicará los lineamientos de postulación y fechas de cierre
-                            para ponentes.
-                        </p>
-                        <div class="cfp-status-box__meta">
-                            <span>Sin charlas comerciales</span>
-                            <span>100% Ingeniería aplicada</span>
-                        </div>
-                    </div>
-                </aside>
-            </div>
+            {{- end }}
         </div>
     </section>
 
     <!-- Official Sponsors Section (#sponsors-section) -->
-    <section id="sponsors-section" class="sponsors-section section">
+    <section id="sponsors-section" class="sponsors-section section section--tinted">
         <div class="dc-container">
             <div class="section-header">
-                <span class="section-kicker">PATROCINADORES</span>
-                <h2 class="section-heading">Patrocinadores Oficiales</h2>
+                <span class="section-kicker">{{ if $isEn }}SPONSORS{{ else }}PATROCINADORES{{ end }}</span>
+                <h2 class="section-heading">{{ if $isEn }}Official Sponsors{{ else }}Patrocinadores Oficiales{{ end }}</h2>
             </div>
 
             <p class="section-intro single-col-max">
-                <strong>{{ $event.title }}</strong> es posible gracias al respaldo de líderes globales en infraestructura
-                de agentes y es un evento <strong>100% gratuito</strong> para las comunidades tecnológicas de toda Latinoamérica.
+                {{- if $isEn }}
+                    <strong>{{ $event.title }}</strong> is made possible by global leaders in agent infrastructure
+                    and is a <strong>100% free event</strong> for tech communities across Latin America.
+                {{- else }}
+                    <strong>{{ $event.title }}</strong> es posible gracias al respaldo de líderes globales en infraestructura
+                    de agentes y es un evento <strong>100% gratuito</strong> para las comunidades tecnológicas de toda Latinoamérica.
+                {{- end }}
             </p>
 
             {{- $sponsors := or site.Data.sponsors $event.sponsors }}
             {{- with $sponsors }}
-                <div class="sponsors-showcase" role="list" aria-label="Patrocinadores oficiales">
+                <div class="sponsors-showcase" role="list" aria-label="{{ if $isEn }}Official sponsors{{ else }}Patrocinadores oficiales{{ end }}">
                     {{- range $s := . }}
                         <div class="sponsor-card" role="listitem">
                             <a

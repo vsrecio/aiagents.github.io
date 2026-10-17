@@ -229,9 +229,50 @@ li {
 .navbar-actions {
     display: inline-flex;
     align-items: center;
+    gap: 0.65rem;
     padding-left: 1rem;
     border-left: 1px solid var(--border-subtle);
     flex-shrink: 0;
+}
+
+.lang-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.2rem;
+    background-color: var(--tint-sand-soft);
+    color: var(--color-ink);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-pill);
+}
+
+.lang-switch__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.1rem;
+    padding: 0.32rem 0.55rem;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--color-muted);
+    background-color: transparent;
+    text-decoration: none;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.lang-switch__item:hover,
+.lang-switch__item:focus-visible {
+    color: var(--color-ink);
+    outline: none;
+}
+
+.lang-switch__item.is-active {
+    background-color: var(--color-ink);
+    color: var(--color-on-dark);
+    box-shadow: var(--shadow-sm);
 }
 
 .navbar-cta-btn {
@@ -451,25 +492,66 @@ li {
 
 .hero-cta {
     margin-top: 0.35rem;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.65rem;
+    max-width: 100%;
+}
+
+.btn-cfp-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.72rem 1.15rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-primary);
+    color: var(--color-ink);
+    border: 1px solid var(--color-primary);
+    box-shadow: var(--shadow-sm);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.86rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-decoration: none;
+    transition: background-color 150ms ease, color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+.btn-cfp-primary:hover,
+.btn-cfp-primary:focus-visible {
+    background-color: var(--color-ink);
+    color: var(--color-on-dark);
+    border-color: var(--color-ink);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    outline: none;
+}
+
+.btn-cfp-primary__arrow {
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
 }
 
 .status-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.65rem;
-    padding: 0.8rem 1.35rem;
+    gap: 0.55rem;
+    padding: 0.72rem 1.15rem;
     border-radius: var(--radius-pill);
     background-color: var(--color-on-dark);
     border: 1px solid var(--border-medium);
     box-shadow: var(--shadow-sm);
     font-weight: 600;
-    font-size: 0.94rem;
+    font-size: 0.86rem;
+    white-space: nowrap;
+    flex-shrink: 0;
     color: var(--color-ink);
 }
 
 .status-badge__dot {
-    width: 0.6rem;
-    height: 0.6rem;
+    width: 0.55rem;
+    height: 0.55rem;
     border-radius: var(--radius-pill);
     background-color: var(--color-primary);
     box-shadow: 0 0 0 4px var(--tint-orange-soft);
@@ -530,7 +612,7 @@ li {
 }
 
 .agent-card__brand {
-    padding: 0.85rem 1rem;
+    padding: 2rem 1.75rem;
     border-radius: var(--radius-md);
     background-color: var(--color-background);
     border: 1px solid var(--border-subtle);
@@ -540,7 +622,7 @@ li {
 }
 
 .hero-logo-img {
-    width: min(100%, 220px);
+    width: min(100%, 300px);
     height: auto;
     display: block;
 }
@@ -712,9 +794,40 @@ li {
     font-weight: 700;
 }
 
+.section-intro a,
+.section-intro a strong {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.section-intro a:hover,
+.section-intro a:hover strong,
+.section-intro a:focus-visible,
+.section-intro a:focus-visible strong {
+    color: var(--color-secondary);
+}
+
 /* ==========================================================================
-   About Section: Rounded Benefits Cards
+   About Section: Compact Horizontal Band
    ========================================================================== */
+
+.editorial-tech .about-section {
+    padding-block: clamp(2.25rem, 3.5vw, 3rem);
+}
+
+.about-section .section-header {
+    margin-bottom: 0.85rem;
+}
+
+.about-section .section-intro {
+    margin-bottom: 0;
+}
+
+.about-section .section-intro p {
+    max-width: 82ch;
+    line-height: 1.65;
+}
 
 .benefits-list {
     margin-bottom: 0;
@@ -852,11 +965,12 @@ li {
 
 .standards-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 1.35rem;
 }
 
 .standard-card {
+    grid-column: span 2;
     padding: 1.65rem;
     background-color: var(--color-on-dark);
     border: 1px solid var(--border-subtle);
@@ -866,6 +980,10 @@ li {
     flex-direction: column;
     gap: 0.85rem;
     transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.standard-card--wide {
+    grid-column: span 3;
 }
 
 .standard-card:hover {
@@ -1018,6 +1136,154 @@ li {
 }
 
 /* ==========================================================================
+   Speakers Section (#speakers-section — Auto-rendered from Sessionize)
+   ========================================================================== */
+
+.speakers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 21.5rem), 1fr));
+    gap: 1.5rem;
+}
+
+.editorial-tech .speaker-card,
+.editorial-tech .speaker-card:hover {
+    width: auto;
+    height: auto;
+    padding: 1.65rem;
+    background-color: var(--color-on-dark);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 1rem;
+    transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.editorial-tech .speaker-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.speaker-card__header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.editorial-tech .speaker-card__avatar {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: var(--radius-pill);
+    object-fit: cover;
+    border: 2px solid var(--border-subtle);
+    flex-shrink: 0;
+    background-color: var(--color-surface);
+}
+
+.speaker-card__avatar--fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-ink);
+}
+
+.speaker-card__identity {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.speaker-card__name {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-ink);
+    line-height: 1.25;
+}
+
+.speaker-card__tagline {
+    margin: 0;
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: var(--color-secondary);
+    line-height: 1.35;
+}
+
+.speaker-card__bio {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--color-muted);
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.speaker-card__talks {
+    margin-top: auto;
+    padding: 0.75rem 0.95rem;
+    border-radius: var(--radius-md);
+    background-color: var(--color-background);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.speaker-card__talks-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+}
+
+.speaker-card__talk-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-ink);
+    line-height: 1.35;
+}
+
+.speaker-card__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.editorial-tech .speaker-card__link {
+    all: unset;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.28rem 0.7rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--tint-blue-soft);
+    border: 1px solid var(--tint-blue-border);
+    color: var(--color-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.editorial-tech .speaker-card__link:hover,
+.editorial-tech .speaker-card__link:focus-visible {
+    background-color: var(--color-secondary);
+    color: var(--color-on-dark);
+}
+
+/* ==========================================================================
    Schedule / Agenda Section (DevConf Timeline + Rounded Cards)
    ========================================================================== */
 
@@ -1037,6 +1303,19 @@ li {
     background-color: var(--color-on-dark);
     border: 1px solid var(--border-subtle);
     box-shadow: var(--shadow-sm);
+}
+
+.schedule-nav__pill--link {
+    text-decoration: none;
+    transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+}
+
+.schedule-nav__pill--link:hover,
+.schedule-nav__pill--link:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+    outline: none;
 }
 
 .schedule-nav__pill .heading {
@@ -1131,10 +1410,19 @@ li {
     background-color: var(--color-on-dark);
     border: 1px solid var(--border-subtle);
     box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.session-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
 }
 
 .schedule-tab-content .title {
-    margin: 0 0 0.45rem;
+    margin: 0;
     font-size: 1.15rem;
     font-weight: 700;
     color: var(--color-ink);
@@ -1144,6 +1432,46 @@ li {
     margin: 0;
     color: var(--color-muted);
     font-size: 0.95rem;
+}
+
+.session-speakers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.session-speaker-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.session-speaker-chip__avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius-pill);
+    object-fit: cover;
+    border: 1px solid var(--border-subtle);
+    flex-shrink: 0;
+}
+
+.session-speaker-chip__info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+}
+
+.session-speaker-chip__name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--color-ink);
+}
+
+.session-speaker-chip__role {
+    font-size: 0.76rem;
+    color: var(--color-muted);
 }
 
 /* ==========================================================================
@@ -1233,6 +1561,32 @@ li {
     margin: 0;
     font-size: 0.92rem;
     color: var(--color-surface);
+}
+
+.cfp-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.78rem 1.25rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-primary);
+    color: var(--color-ink);
+    border: 1px solid var(--color-primary);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+
+.cfp-submit-btn:hover,
+.cfp-submit-btn:focus-visible {
+    background-color: var(--color-on-dark);
+    color: var(--color-ink);
+    border-color: var(--color-on-dark);
+    transform: translateY(-1px);
+    outline: none;
 }
 
 .cfp-status-box__meta {
@@ -1442,7 +1796,7 @@ li {
     }
 
     .navbar-cta-btn {
-        width: 100%;
+        flex: 1;
         justify-content: center;
         padding-block: 0.75rem;
     }
@@ -1458,9 +1812,22 @@ li {
     .ecosystem-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .standard-card,
+    .standard-card--wide {
+        grid-column: span 1;
+    }
+
+    .standard-card--featured {
+        grid-column: 1 / -1;
+    }
 }
 
 @media (max-width: 48rem) {
+    .hero-cta {
+        flex-wrap: wrap;
+    }
+
     .benefits-grid,
     .standards-grid,
     .cfp-tracks,

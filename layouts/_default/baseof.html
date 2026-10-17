@@ -62,10 +62,11 @@
     </head>
 
     <body class="page-body editorial-tech">
+        {{- $isEn := eq .Site.Language.Lang "en" }}
         <header id="header" class="header fixed-top">
             <div class="branding">
                 <div class="dc-container">
-                    <nav class="main-nav navbar" aria-label="Navegación principal">
+                    <nav class="main-nav navbar" aria-label="{{ if $isEn }}Main navigation{{ else }}Navegación principal{{ end }}">
                         <div class="site-logo">
                             <a class="site-logo__link scrollto" href="#hero-block" aria-label="{{ .Site.Params.themes.event.title }}">
                                 <svg class="site-logo__mark" viewBox="0 0 226 76" fill="none" aria-hidden="true">
@@ -79,7 +80,7 @@
                                 <span class="site-logo__divider" aria-hidden="true"></span>
                                 <span class="site-logo__text">
                                     <span class="site-logo__name">AI AGENTS DAY</span>
-                                    <span class="site-logo__meta technical-label">12 DIC 2026 · 100% ONLINE</span>
+                                    <span class="site-logo__meta technical-label">{{ if $isEn }}DEC 12, 2026 · 100% ONLINE{{ else }}12 DIC 2026 · 100% ONLINE{{ end }}</span>
                                 </span>
                             </a>
                         </div>
@@ -89,7 +90,7 @@
                             type="button"
                             aria-controls="navigation"
                             aria-expanded="false"
-                            aria-label="Alternar menú de navegación"
+                            aria-label="{{ if $isEn }}Toggle navigation menu{{ else }}Alternar menú de navegación{{ end }}"
                         >
                             <span class="navbar-toggler__bar"></span>
                             <span class="navbar-toggler__bar"></span>
@@ -98,26 +99,47 @@
                         <div id="navigation" class="navbar-collapse">
                             <ul class="nav navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link scrollto" href="#about-section">El Evento</a>
+                                    <a class="nav-link scrollto" href="#about-section">{{ if $isEn }}About{{ else }}El Evento{{ end }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link scrollto" href="#standards-section">Estándares &amp; Stack</a>
+                                    <a class="nav-link scrollto" href="#standards-section">{{ if $isEn }}Standards &amp; Stack{{ else }}Estándares &amp; Stack{{ end }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link scrollto" href="#schedule-section">Agenda</a>
+                                    <a class="nav-link scrollto" href="#speakers-section">{{ if $isEn }}Speakers{{ else }}Oradores{{ end }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link scrollto" href="#cfp-section">Call for Papers</a>
+                                    <a class="nav-link scrollto" href="#schedule-section">{{ if $isEn }}Schedule{{ else }}Agenda{{ end }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link scrollto" href="#sponsors-section">Patrocinadores</a>
+                                    <a class="nav-link scrollto" href="#sponsors-section">{{ if $isEn }}Sponsors{{ else }}Patrocinadores{{ end }}</a>
                                 </li>
                             </ul>
 
                             <div class="navbar-actions">
-                                <a class="navbar-cta-btn scrollto" href="#cfp-section">
+                                <div class="lang-switch" role="group" aria-label="{{ if $isEn }}Language selector{{ else }}Selector de idioma{{ end }}">
+                                    <a
+                                        class="lang-switch__item{{ if not $isEn }} is-active{{ end }}"
+                                        href="{{ "/" | relURL }}"
+                                        lang="es"
+                                        {{ if not $isEn }}aria-current="page"{{ end }}
+                                    >ES</a>
+                                    <a
+                                        class="lang-switch__item{{ if $isEn }} is-active{{ end }}"
+                                        href="{{ "en/" | relURL }}"
+                                        lang="en"
+                                        {{ if $isEn }}aria-current="page"{{ end }}
+                                    >EN</a>
+                                </div>
+
+                                {{- $cfpUrl := .Site.Params.themes.event.callToActionSecondary.url }}
+                                <a
+                                    class="navbar-cta-btn"
+                                    href="{{ or $cfpUrl "#cfp-section" }}"
+                                    {{ if $cfpUrl }}target="_blank" rel="noopener noreferrer"{{ end }}
+                                >
                                     <span class="navbar-cta-btn__dot" aria-hidden="true"></span>
                                     <span>Call for Speakers</span>
+                                    {{ if $cfpUrl }}<span aria-hidden="true">↗</span>{{ end }}
                                 </a>
                             </div>
                         </div>

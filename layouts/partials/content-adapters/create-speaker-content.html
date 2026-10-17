@@ -1,0 +1,58 @@
+{{ $input := . }}
+{{ $pages := slice }}
+{{ $resources := slice }}
+
+{{ range $input.sessionize.speakers }}
+    {{ $content := dict "mediaType" "text/markdown" "value" (or .bio "") }}
+    {{ $sessionIds := apply (or .sessions (slice)) "cast.ToString" "." }}
+    {{ $sessions := where (or $input.sessionize.sessions (slice)) "id" "in" $sessionIds }}
+    {{ $links := or .links (slice) }}
+    {{ $xUrl := "" }}
+    {{ with (where $links "linkType" "eq" "Twitter") }}{{ with index . 0 }}{{ $xUrl = .url }}{{ end }}{{ end }}
+    {{ $linkedinUrl := "" }}
+    {{ with (where $links "linkType" "eq" "LinkedIn") }}{{ with index . 0 }}{{ $linkedinUrl = .url }}{{ end }}{{ end }}
+    {{ $companyUrl := "" }}
+    {{ with (where $links "linkType" "eq" "Company_Website") }}{{ with index . 0 }}{{ $companyUrl = .url }}{{ end }}{{ end }}
+    {{ $params :=
+        dict
+        "speakerId" .id
+        "tagLine" .tagLine
+        "sessions" $sessions
+        "isTopSpeaker" .isTopSpeaker
+        "xUrl" $xUrl
+        "linkedinUrl" $linkedinUrl
+        "companyUrl" $companyUrl
+        "lastName" .lastName
+        "firstName" .firstName
+    }}
+    {{ $path := (printf "%s %s" .fullName .id) }}
+    {{ $page := dict
+        "content" $content
+        "kind" "page"
+        "params" $params
+        "path" $path
+        "title" .fullName
+    }}
+    {{ $pages = $pages | append $page }}
+
+    {{/* Store the speaker's profile picture when reachable. */}}
+    {{ $item := . }}
+    {{ with $url := $item.profilePicture }}
+        {{ with try (resources.GetRemote $url) }}
+            {{ with .Value }}
+                {{ with . | images.Filter (images.Process "q90 webp") }}
+                    {{ $content := dict "mediaType" .MediaType.Type "value" .Content }}
+                    {{ $params := dict "alt" $item.fullName }}
+                    {{ $resource := dict
+                        "content" $content
+                        "params" $params
+                        "path" (printf "%s/avatar.%s" $path .MediaType.SubType)
+                    }}
+                    {{ $resources = $resources | append $resource }}
+                {{ end }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+{{ return dict "pages" $pages "resources" $resources }}
