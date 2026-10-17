@@ -149,7 +149,7 @@ li {
 }
 
 .site-logo__mark {
-    height: 1.9rem;
+    height: 2.35rem;
     width: auto;
     display: block;
     flex-shrink: 0;
@@ -696,7 +696,7 @@ li {
 }
 
 .hero-logo-img {
-    width: min(100%, 300px);
+    width: min(100%, 380px);
     height: auto;
     display: block;
 }
@@ -2073,28 +2073,28 @@ li {
     align-items: center;
     justify-content: center;
     width: fit-content;
-    padding: 1rem 1.35rem;
-    border-radius: var(--radius-lg);
-    background-color: #ffffff;
-    border: 1px solid var(--border-subtle);
-    box-shadow: var(--shadow-md);
+    padding: 0.5rem 0.75rem;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
     text-decoration: none;
-    transition: transform 150ms ease, box-shadow 150ms ease;
+    transition: transform 150ms ease, opacity 150ms ease;
 }
 
 .sponsor-card__logo-link:hover,
 .sponsor-card__logo-link:focus-visible {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+    opacity: 0.75;
     outline: none;
 }
 
 .sponsor-card__logo {
-    width: 11.5rem;
+    width: 12.5rem;
     max-width: 100%;
     height: auto;
     display: block;
     object-fit: contain;
+    filter: brightness(0);
 }
 
 .ecosystem-grid {

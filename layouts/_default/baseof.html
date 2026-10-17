@@ -79,14 +79,13 @@
                     <nav class="main-nav navbar" aria-label="{{ if $isEn }}Main navigation{{ else }}Navegación principal{{ end }}">
                         <div class="site-logo">
                             <a class="site-logo__link scrollto" href="{{ if .IsHome }}#hero-block{{ else }}{{ $homeBase }}{{ end }}" aria-label="{{ .Site.Params.themes.event.title }}">
-                                <svg class="site-logo__mark" viewBox="0 0 226 76" fill="none" aria-hidden="true">
-                                    <path fill="#E94B20" fill-rule="evenodd" clip-rule="evenodd" d="M26 4H42L64 71H48L42.5 53.5H25L19.5 71H3.5L26 4ZM33.8 22.5L29.5 39.5H38.1L33.8 22.5Z"/>
-                                    <path fill="#141615" fill-rule="evenodd" clip-rule="evenodd" d="M96.5 4H112.5L134.5 71H118.5L113 53.5H95.5L90 71H74L96.5 4ZM104.3 22.5L100 39.5H108.6L104.3 22.5Z"/>
-                                    <path fill="#141615" fill-rule="evenodd" clip-rule="evenodd" d="M142 4H171C190.2 4 201.5 16.2 201.5 37.5C201.5 58.8 190.2 71 171 71H142V4ZM158.5 19.5V55.5H169.5C179.8 55.5 184.8 49 184.8 37.5C184.8 26 179.8 19.5 169.5 19.5H158.5Z"/>
-                                    <circle cx="214" cy="10.5" r="4.5" fill="#285F87"/>
-                                    <line x1="214" y1="18" x2="214" y2="57.5" stroke="#285F87" stroke-width="2"/>
-                                    <circle cx="214" cy="64.5" r="4.5" fill="#285F87"/>
-                                </svg>
+                                <img
+                                    class="site-logo__mark"
+                                    src="{{ "logos/aiagents-day.png" | relURL }}"
+                                    alt="{{ .Site.Params.themes.event.title }}"
+                                    width="104"
+                                    height="52"
+                                />
                                 <span class="site-logo__divider" aria-hidden="true"></span>
                                 <span class="site-logo__text">
                                     <span class="site-logo__name">AI AGENTS DAY</span>
@@ -166,7 +165,7 @@
             <div class="dc-container footer__inner">
                 <div class="footer__brand">
                     <svg class="footer__logo-mark" viewBox="0 0 228 84" fill="none" aria-hidden="true">
-                        <path fill="#E94B20" fill-rule="evenodd" clip-rule="evenodd" d="M30 8H46L68 75H52L46.5 57.5H29L23.5 75H7.5L30 8ZM37.8 26.5L33.5 43.5H42.1L37.8 26.5Z"/>
+                        <path fill="#E94B20" d="M8 31C8 16 19 8 39 8H53C69 8 78 16 78 29C78 39 72 45 58 52L27 68H8V54L46 35C52 32 55 29 55 25C55 21 51 19 42 19H34C27 19 24 23 24 31H8ZM14 75L39 62H61L71 44H83L67 75H14Z"/>
                         <path fill="#F8F6EE" fill-rule="evenodd" clip-rule="evenodd" d="M100.5 8H116.5L138.5 75H122.5L117 57.5H99.5L94 75H78L100.5 8ZM108.3 26.5L104 43.5H112.6L108.3 26.5Z"/>
                         <path fill="#F8F6EE" fill-rule="evenodd" clip-rule="evenodd" d="M146 8H175C194.2 8 205.5 20.2 205.5 41.5C205.5 62.8 194.2 75 175 75H146V8ZM162.5 23.5V59.5H173.5C183.8 59.5 188.8 53 188.8 41.5C188.8 30 183.8 23.5 173.5 23.5H162.5Z"/>
                         <circle cx="216" cy="14.5" r="4.5" fill="#285F87"/>

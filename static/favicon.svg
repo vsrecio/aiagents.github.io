@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" fill="none" role="img" aria-label="AAD — AI Agents Day">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" fill="none" role="img" aria-label="2AD — AI Agents Day">
   <rect width="240" height="120" rx="8" fill="#EEECE2" stroke="#141615" stroke-width="4"/>
-  <!-- First 'A' — Signal Orange (#E94B20) -->
-  <path fill="#E94B20" fill-rule="evenodd" clip-rule="evenodd" d="M35 24H51L73 91H57L51.5 73.5H34L28.5 91H12.5L35 24ZM42.8 42.5L38.5 59.5H47.1L42.8 42.5Z"/>
+  <!-- Stylized '2' — Signal Orange (#E94B20) -->
+  <path fill="#E94B20" d="M13 47C13 32 24 24 44 24H58C74 24 83 32 83 45C83 55 77 61 63 68L32 84H13V70L51 51C57 48 60 45 60 41C60 37 56 35 47 35H39C32 35 29 39 29 47H13ZM19 91L44 78H66L76 60H88L72 91H19Z"/>
   <!-- Second 'A' — Editorial Black (#141615) -->
   <path fill="#141615" fill-rule="evenodd" clip-rule="evenodd" d="M105.5 24H121.5L143.5 91H127.5L122 73.5H104.5L99 91H83L105.5 24ZM113.3 42.5L109 59.5H117.6L113.3 42.5Z"/>
   <!-- 'D' — Editorial Black (#141615) -->

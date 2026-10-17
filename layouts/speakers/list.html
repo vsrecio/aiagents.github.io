@@ -71,22 +71,21 @@
                     </span>
                 </div>
 
+                {{- $registerUrl := or $event.callToAction.other.url "#" }}
                 <div class="hero-cta">
-                    {{- if $cfpUrl }}
-                        <a
-                            class="btn-cfp-primary"
-                            href="{{ $cfpUrl }}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <span>{{ $cfpLabel }}</span>
-                            <span class="btn-cfp-primary__arrow" aria-hidden="true">↗</span>
-                        </a>
-                    {{- end }}
-                    <a class="status-badge status-badge--link" href="{{ $sessionsPageUrl }}">
-                        <span class="status-badge__dot" aria-hidden="true"></span>
-                        <span>{{ if $isEn }}View Event Schedule →{{ else }}Ver Agenda del Evento →{{ end }}</span>
+                    <a
+                        class="btn-cfp-primary"
+                        href="{{ $registerUrl }}"
+                    >
+                        <span>{{ if $isEn }}Register for the event{{ else }}Regístrate gratis al evento{{ end }}</span>
+                        <span class="btn-cfp-primary__arrow" aria-hidden="true">→</span>
                     </a>
+                    {{- with $event.statusBadge }}
+                        <span class="status-badge">
+                            <span class="status-badge__dot" aria-hidden="true"></span>
+                            <span>{{ . }}</span>
+                        </span>
+                    {{- end }}
                 </div>
             </div>
         </div>

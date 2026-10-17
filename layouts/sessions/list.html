@@ -79,17 +79,13 @@
                 </div>
 
                 <div class="hero-cta">
-                    {{- if $cfpUrl }}
-                        <a
-                            class="btn-cfp-primary"
-                            href="{{ $cfpUrl }}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <span>{{ $cfpLabel }}</span>
-                            <span class="btn-cfp-primary__arrow" aria-hidden="true">↗</span>
-                        </a>
-                    {{- end }}
+                    <a
+                        class="btn-cfp-primary scrollto"
+                        href="#schedule-section"
+                    >
+                        <span>{{ if $isEn }}Register for talks{{ else }}Inscribirse a las charlas{{ end }}</span>
+                        <span class="btn-cfp-primary__arrow" aria-hidden="true">↓</span>
+                    </a>
                     <a class="status-badge status-badge--link" href="{{ $speakersPageUrl }}">
                         <span class="status-badge__dot" aria-hidden="true"></span>
                         <span>{{ if $isEn }}Meet the Speakers →{{ else }}Conocer a los Oradores →{{ end }}</span>

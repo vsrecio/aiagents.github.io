@@ -40,20 +40,16 @@
 
                 <p class="hero-intro">{{ $event.slogan }}</p>
 
-                {{- $cfpUrl := $event.callToActionSecondary.url }}
-                {{- $cfpLabel := or $event.callToActionSecondary.label (cond $isEn "Submit a talk on Sessionize" "Enviar charla en Sessionize") }}
+                {{- $registerUrl := or $event.callToAction.other.url "#" }}
+                {{- $registerLabel := cond $isEn "Register for the event" "Regístrate gratis al evento" }}
                 <div class="hero-cta">
-                    {{- if $cfpUrl }}
-                        <a
-                            class="btn-cfp-primary"
-                            href="{{ $cfpUrl }}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <span>{{ $cfpLabel }}</span>
-                            <span class="btn-cfp-primary__arrow" aria-hidden="true">↗</span>
-                        </a>
-                    {{- end }}
+                    <a
+                        class="btn-cfp-primary"
+                        href="{{ $registerUrl }}"
+                    >
+                        <span>{{ $registerLabel }}</span>
+                        <span class="btn-cfp-primary__arrow" aria-hidden="true">→</span>
+                    </a>
                     {{- with $event.statusBadge }}
                         <span class="status-badge">
                             <span class="status-badge__dot" aria-hidden="true"></span>
@@ -77,9 +73,9 @@
                         <img
                             class="hero-logo-img"
                             src="{{ "logos/aiagents-day.png" | relURL }}"
-                            alt="{{ $event.title }} — AAD · Build / Learn / Connect"
-                            width="268"
-                            height="150"
+                            alt="{{ $event.title }} — 2AD · AI Agents Day"
+                            width="380"
+                            height="190"
                         />
                     </div>
                 </div>
