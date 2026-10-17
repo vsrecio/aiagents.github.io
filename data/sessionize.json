@@ -2,6 +2,44 @@
   "categories": [],
   "questions": [],
   "rooms": [],
-  "sessions": [],
-  "speakers": []
+  "sessions": [
+    {
+      "categoryItems": [],
+      "description": "demo demo demo demo demo",
+      "endsAt": null,
+      "id": "1365081",
+      "isConfirmed": false,
+      "isInformed": true,
+      "isPlenumSession": false,
+      "isServiceSession": false,
+      "liveUrl": null,
+      "questionAnswers": [],
+      "recordingUrl": null,
+      "roomId": null,
+      "speakers": [
+        "5c3e5a3c-23a8-43e3-9df3-a286351ede80"
+      ],
+      "startsAt": null,
+      "status": "Accepted",
+      "title": "demo demo"
+    }
+  ],
+  "speakers": [
+    {
+      "bio": "I’m Victor S. Recio—an ex-Microsoft Cloud Solution Architect and cloud-native practitioner known for championing Linux, Open Source, Containers, and DevOps. I currently work as a Senior Cloud Engineer/DevOps, leading modernization and migration initiatives and delivering container-based platforms for clients across the USA and the Caribbean. \r\n\r\nOver the last seven+ years, I’ve advised organizations—particularly in the financial sector—on DevOps operating models, cloud architecture, and microservices design aligned with agile delivery. I’m also an active educator and speaker, having delivered international talks and hands-on workshops on Cloud Governance, Container Security, Linux Administration, Docker, and Kubernetes for diverse organizations. My work is grounded in collaboration, continuous learning, and building high-trust technical communities—bringing practical, secure, and scalable engineering to every stage of the platform lifecycle.",
+      "categoryItems": [],
+      "firstName": "Victor S.",
+      "fullName": "Victor S. Recio",
+      "id": "5c3e5a3c-23a8-43e3-9df3-a286351ede80",
+      "isTopSpeaker": false,
+      "lastName": "Recio",
+      "links": [],
+      "profilePicture": "https://cdn.sessionize.com/image/e6c5-400o400o1-K4dywA5QLM2K3gSpE9XQ3q.png",
+      "questionAnswers": [],
+      "sessions": [
+        1365081
+      ],
+      "tagLine": "KubeAstronaut 🚀 | Docker Captain 🐳 | ☁️ Cloud & Software Architect | 🏢 ex-Microsoft | 🎓Educator & Speaker 📢"
+    }
+  ]
 }
