@@ -1,7 +1,7 @@
 {{- define "main" }}
     {{- $isEn := eq .Site.Language.Lang "en" }}
     {{- $event := .Site.Params.themes.event }}
-    {{- $dateLabel := or $event.dateLabel (cond $isEn "Saturday, December 12, 2026" "Sábado 12 de Diciembre de 2026") }}
+    {{- $dateLabel := or $event.dateLabel (cond $isEn "Friday, December 4, 2026" "Viernes 4 de Diciembre de 2026") }}
     {{- $locationLabel := or $event.location "100% Online" }}
     {{- $freeLabel := or $event.freeLabel (cond $isEn "100% Free · LATAM Tech Communities" "100% Gratis · Comunidades Tech LATAM") }}
     {{- $cfpUrl := $event.callToActionSecondary.url }}

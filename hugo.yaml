@@ -33,19 +33,19 @@ languages:
         params:
             # Open Graph / X (Twitter) Cards
             description: |
-                AI Agents Day — Ideas que construyen el futuro de los agentes de IA. Sábado 12 de diciembre de 2026 · Evento 100% Online y 100% GRATIS para las comunidades tecnológicas de LATAM.
+                AI Agents Day — Ideas que construyen el futuro de los agentes de IA. Viernes 4 de diciembre de 2026 · Evento 100% Online y 100% GRATIS para las comunidades tecnológicas de LATAM.
             themes:
                 event:
                     eyebrow: PEOPLE — IDEAS — AGENTS — REAL IMPACT
                     slogan: Ideas que construyen el futuro de los agentes de IA. Un evento 100% gratis para las comunidades tecnológicas de LATAM.
-                    dateLabel: Sábado 12 de Diciembre de 2026
+                    dateLabel: Viernes 4 de Diciembre de 2026
                     statusBadge: Inscripciones abiertas · Acceso 100% gratuito
                     location: '100% Online'
                     freeLabel: '100% Gratis · Comunidades Tech LATAM'
                     description: |
                         **AI Agents Day** es un encuentro técnico **100% online y 100% GRATIS para las comunidades tecnológicas de LATAM**,
                         dedicado a la ingeniería de agentes de inteligencia artificial: estándares abiertos, conectividad segura,
-                        aislamiento en runtime, arquitecturas multi-agente y gobernanza para la autonomía en producción. Te esperamos el **sábado 12 de diciembre de 2026**
+                        aislamiento en runtime, arquitecturas multi-agente y gobernanza para la autonomía en producción. Te esperamos el **viernes 4 de diciembre de 2026**
                         para explorar **Model Context Protocol (MCP)**, **AGENTS.md**, **Agent2Agent (A2A)**,
                         **agentgateway**, **Agent Router**, **Docker Sandboxes (MicroVMs)**, **ADK Agents**, **Arquitecturas de Agentes** y **AI Governance**.
                     stats:
@@ -70,19 +70,19 @@ languages:
         disabled: false
         params:
             description: |
-                AI Agents Day — Ideas building the future of AI agents. Saturday, December 12, 2026 · 100% Online & 100% Free for LATAM tech communities.
+                AI Agents Day — Ideas building the future of AI agents. Friday, December 4, 2026 · 100% Online & 100% Free for LATAM tech communities.
             themes:
                 event:
                     eyebrow: PEOPLE — IDEAS — AGENTS — REAL IMPACT
                     slogan: Ideas building the future of AI agents. A 100% free event for LATAM tech communities.
-                    dateLabel: Saturday, December 12, 2026
+                    dateLabel: Friday, December 4, 2026
                     statusBadge: Registration Open · 100% Free Access
                     location: '100% Online'
                     freeLabel: '100% Free · LATAM Tech Communities'
                     description: |
                         **AI Agents Day** is a **100% online and 100% FREE technical conference for LATAM tech communities**,
                         dedicated to AI agent engineering: open standards, secure connectivity,
-                        runtime isolation, multi-agent architectures, and governance for production autonomy. Join us on **Saturday, December 12, 2026**
+                        runtime isolation, multi-agent architectures, and governance for production autonomy. Join us on **Friday, December 4, 2026**
                         to explore **Model Context Protocol (MCP)**, **AGENTS.md**, **Agent2Agent (A2A)**,
                         **agentgateway**, **Agent Router**, **Docker Sandboxes (MicroVMs)**, **ADK Agents**, **Agentic Architectures**, and **AI Governance**.
                     stats:
@@ -114,8 +114,8 @@ params:
             sessionizeId: zoi3u8ka
             title: AI Agents Day
             shortTitle: AI Agents Day
-            startDate: 2026-12-12
-            endDate: 2026-12-12
+            startDate: 2026-12-04
+            endDate: 2026-12-04
             # Virtual event: no physical address / map.
             address: []
             map:

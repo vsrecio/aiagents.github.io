@@ -1452,6 +1452,87 @@ li {
     overflow: hidden;
 }
 
+/* Organizing Team Grid on /organizers/ */
+.organizers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    gap: 1.5rem;
+}
+
+.organizer-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background-color: var(--color-on-dark);
+    color: var(--color-ink);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.organizer-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.organizer-card__photo-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: var(--tint-sand-soft);
+    border: 1px solid var(--border-subtle);
+}
+
+.organizer-card__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.organizer-card__body {
+    padding: 1rem 0.4rem 0.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    flex: 1;
+}
+
+.organizer-card__role {
+    align-self: flex-start;
+    padding: 0.22rem 0.7rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--tint-orange-soft);
+    color: var(--color-primary);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.organizer-card__name {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--color-ink);
+}
+
+.organizer-card__tagline {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.48;
+    color: var(--color-muted);
+}
+
+.organizer-card__links {
+    margin-top: auto;
+    padding-top: 0.5rem;
+}
+
 /* Detailed Personal Speaker Profile on /speakers/<slug>/ */
 .speaker-detail-section {
     padding-top: clamp(2.5rem, 5vw, 4rem);

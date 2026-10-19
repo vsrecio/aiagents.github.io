@@ -1,0 +1,53 @@
+[
+    {
+        "id": "victor-recio",
+        "name": "Victor S. Recio",
+        "roleEs": "Organizer",
+        "roleEn": "Organizer",
+        "taglineEs": "Microsoft MVP 🏆 | KubeAstronaut 🚀 | Docker Captain 🐳 | ☁️ Cloud & Software Architect | 🏢 ex-Microsoft | 🎓 Educator & Speaker 📢",
+        "taglineEn": "Microsoft MVP 🏆 | KubeAstronaut 🚀 | Docker Captain 🐳 | ☁️ Cloud & Software Architect | 🏢 ex-Microsoft | 🎓 Educator & Speaker 📢",
+        "image": "https://media.licdn.com/dms/image/v2/D4E03AQEw0FSTRj-aHg/profile-displayphoto-crop_800_800/B4EaErYMPIGQAI-/0/1791729125079?e=1793836800&v=beta&t=IvEJrhygFkAN7szJDXX0SIQWIZIcQ_d5Fuiukkgn7Pg",
+        "hidden": false,
+        "socials": [
+            {
+                "type": "linkedin",
+                "label": "LinkedIn",
+                "url": "https://www.linkedin.com/in/vsrecio/"
+            }
+        ]
+    },
+    {
+        "id": "gloria-palma",
+        "name": "Gloria Palma González",
+        "roleEs": "Organizer",
+        "roleEn": "Organizer",
+        "taglineEs": "Docker Captain 🐳 | Senior Solution Architect | ☁️ Cloud, Containers & Open Source Infrastructure",
+        "taglineEn": "Docker Captain 🐳 | Senior Solution Architect | ☁️ Cloud, Containers & Open Source Infrastructure",
+        "image": "https://media.licdn.com/dms/image/v2/D4E03AQGLszGWt1Dpiw/profile-displayphoto-crop_800_800/B4EZ3blv_hIoAM-/0/1777505610762?e=1793836800&v=beta&t=CsfxDf5jzlwhJEQrALFviXDN9VxBsP80rtzHboWzEbs",
+        "hidden": false,
+        "socials": [
+            {
+                "type": "linkedin",
+                "label": "LinkedIn",
+                "url": "https://www.linkedin.com/in/gloria-palma-gonzalez/"
+            }
+        ]
+    },
+    {
+        "id": "pablo-piovano",
+        "name": "Pablo Piovano",
+        "roleEs": "Organizer",
+        "roleEn": "Organizer",
+        "taglineEs": "Microsoft MVP in AI 🏆 | Docker Captain 🐳 | Director of AI | Generative & Agentic AI Systems",
+        "taglineEn": "Microsoft MVP in AI 🏆 | Docker Captain 🐳 | Director of AI | Generative & Agentic AI Systems",
+        "image": "https://github.com/ppiova.png",
+        "hidden": false,
+        "socials": [
+            {
+                "type": "linkedin",
+                "label": "LinkedIn",
+                "url": "https://www.linkedin.com/in/ppiova/"
+            }
+        ]
+    }
+]

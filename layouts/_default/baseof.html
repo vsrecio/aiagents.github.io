@@ -67,6 +67,7 @@
         {{- $anchorPrefix := cond .IsHome "" $homeBase }}
         {{- $speakersUrl := cond $isEn ("en/speakers/" | relURL) ("speakers/" | relURL) }}
         {{- $sessionsUrl := cond $isEn ("en/sessions/" | relURL) ("sessions/" | relURL) }}
+        {{- $organizersUrl := cond $isEn ("en/organizers/" | relURL) ("organizers/" | relURL) }}
         {{- $esUrl := "/" | relURL }}
         {{- $enUrl := "en/" | relURL }}
         {{- range .AllTranslations }}
@@ -89,7 +90,7 @@
                                 <span class="site-logo__divider" aria-hidden="true"></span>
                                 <span class="site-logo__text">
                                     <span class="site-logo__name">AI AGENTS DAY</span>
-                                    <span class="site-logo__meta technical-label">{{ if $isEn }}DEC 12, 2026 · 100% ONLINE{{ else }}12 DIC 2026 · 100% ONLINE{{ end }}</span>
+                                    <span class="site-logo__meta technical-label">{{ if $isEn }}DEC 4, 2026 · 100% ONLINE{{ else }}4 DIC 2026 · 100% ONLINE{{ end }}</span>
                                 </span>
                             </a>
                         </div>
@@ -118,6 +119,9 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link{{ if eq .Section "sessions" }} is-active{{ end }}" href="{{ $sessionsUrl }}" {{ if eq .Section "sessions" }}aria-current="page"{{ end }}>{{ if $isEn }}Schedule{{ else }}Agenda{{ end }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link{{ if eq .Section "organizers" }} is-active{{ end }}" href="{{ $organizersUrl }}" {{ if eq .Section "organizers" }}aria-current="page"{{ end }}>{{ if $isEn }}Organizers{{ else }}Organizadores{{ end }}</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link scrollto" href="{{ $anchorPrefix }}#sponsors-section">{{ if $isEn }}Sponsors{{ else }}Patrocinadores{{ end }}</a>
