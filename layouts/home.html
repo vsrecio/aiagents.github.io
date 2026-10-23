@@ -404,8 +404,8 @@
                                     class="sponsor-card__logo"
                                     src="{{ $s.logo | relURL }}"
                                     alt="{{ $s.name }}"
-                                    width="184"
-                                    height="42"
+                                    width="{{ or $s.width 184 }}"
+                                    height="{{ or $s.height 42 }}"
                                     loading="lazy"
                                 />
                             </a>

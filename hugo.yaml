@@ -145,6 +145,15 @@ params:
                   name: Docker
                   description: Plataforma líder en contenedores, entornos developer-first y Docker Sandboxes con aislamiento MicroVM para agentes de IA.
                   tier: platinum
+                  width: 200
+                  height: 45
+                - logo: logos/ardanlabs.png
+                  url: https://www.ardanlabs.com/
+                  name: Ardan Labs
+                  description: Consultoría de ingeniería de software de alto rendimiento y entrenamiento especializado en Go, Rust, Kubernetes e IA.
+                  tier: platinum
+                  width: 78
+                  height: 92
             partners: []
             organizers: []
             featuredSessions: []
