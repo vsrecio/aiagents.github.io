@@ -140,7 +140,8 @@
                                         <div class="session-speakers">
                                             {{- range $spId := . }}
                                                 {{- with index $speakersById (string $spId) }}
-                                                    <a class="session-speaker-chip session-speaker-chip--link" href="{{ printf "%s%s/" $speakersPageUrl (.fullName | urlize) }}">
+                                                    {{- $cleanRole := strings.TrimSpace (or .tagLine "") }}
+                                                    <a class="session-speaker-chip session-speaker-chip--link" href="{{ printf "%s%s/" $speakersPageUrl (partial "speaker-slug.html" .) }}">
                                                         {{- if .profilePicture }}
                                                             <img
                                                                 class="session-speaker-chip__avatar"
@@ -153,8 +154,8 @@
                                                         {{- end }}
                                                         <div class="session-speaker-chip__info">
                                                             <strong class="session-speaker-chip__name">{{ .fullName }}</strong>
-                                                            {{- with .tagLine }}
-                                                                <span class="session-speaker-chip__role">{{ . }}</span>
+                                                            {{- if and (ne $cleanRole "") (not (in (slice "n/a" "na" "-" "none") (lower $cleanRole))) }}
+                                                                <span class="session-speaker-chip__role">{{ $cleanRole }}</span>
                                                             {{- end }}
                                                         </div>
                                                     </a>

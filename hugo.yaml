@@ -5,6 +5,10 @@ theme: event
 defaultContentLanguage: es
 defaultContentLanguageInSubdir: false
 
+caches:
+    getresource:
+        maxAge: 2m
+
 # Landing-only mode: only the home page is generated.
 # No taxonomies, RSS or sitemap.
 disableKinds:

@@ -1,0 +1,28 @@
+{{- $raw := lower (or .fullName (string .id) "speaker") -}}
+{{- $pairs := slice
+    (slice "á" "a") (slice "à" "a") (slice "ä" "a") (slice "â" "a") (slice "ã" "a") (slice "å" "a") (slice "ā" "a") (slice "ă" "a") (slice "ą" "a")
+    (slice "é" "e") (slice "è" "e") (slice "ë" "e") (slice "ê" "e") (slice "ē" "e") (slice "ė" "e") (slice "ę" "e") (slice "ě" "e")
+    (slice "í" "i") (slice "ì" "i") (slice "ï" "i") (slice "î" "i") (slice "ī" "i") (slice "į" "i") (slice "ı" "i")
+    (slice "ó" "o") (slice "ò" "o") (slice "ö" "o") (slice "ô" "o") (slice "õ" "o") (slice "ø" "o") (slice "ō" "o") (slice "ő" "o")
+    (slice "ú" "u") (slice "ù" "u") (slice "ü" "u") (slice "û" "u") (slice "ū" "u") (slice "ů" "u") (slice "ű" "u") (slice "ų" "u")
+    (slice "ñ" "n") (slice "ń" "n") (slice "ň" "n") (slice "ņ" "n")
+    (slice "š" "s") (slice "ś" "s") (slice "ş" "s") (slice "ș" "s") (slice "ß" "ss")
+    (slice "č" "c") (slice "ć" "c") (slice "ç" "c")
+    (slice "ž" "z") (slice "ź" "z") (slice "ż" "z")
+    (slice "đ" "d") (slice "ď" "d")
+    (slice "ł" "l") (slice "ľ" "l") (slice "ĺ" "l") (slice "ļ" "l")
+    (slice "ř" "r") (slice "ŕ" "r")
+    (slice "ť" "t") (slice "ț" "t") (slice "ţ" "t")
+    (slice "ý" "y") (slice "ÿ" "y")
+    (slice "ğ" "g") (slice "ģ" "g")
+    (slice "ķ" "k")
+    (slice "æ" "ae") (slice "œ" "oe")
+-}}
+{{- range $p := $pairs -}}
+    {{- $raw = replace $raw (index $p 0) (index $p 1) -}}
+{{- end -}}
+{{- $slug := strings.Trim (replaceRE `[^a-z0-9]+` "-" $raw) "-" -}}
+{{- if eq $slug "" -}}
+    {{- $slug = urlize (string .id) -}}
+{{- end -}}
+{{- return $slug -}}

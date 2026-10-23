@@ -99,7 +99,7 @@
             {{- if gt (len $speakers) 0 }}
                 <div class="speakers-wall-grid" role="list">
                     {{- range $sp := $speakers }}
-                        {{- $profileUrl := printf "%s%s/" $speakersPageUrl ($sp.fullName | urlize) }}
+                        {{- $profileUrl := printf "%s%s/" $speakersPageUrl (partial "speaker-slug.html" $sp) }}
                         {{- $talkTitle := "" }}
                         {{- range $sid := (or $sp.sessions (slice)) }}
                             {{- if eq $talkTitle "" }}

@@ -2,7 +2,7 @@
 {{ $pages := slice }}
 
 {{ range (or $input.sessionize.speakers (slice)) }}
-    {{ $slug := urlize (or .fullName (string .id)) }}
+    {{ $slug := partial "speaker-slug.html" . }}
     {{ $content := dict "mediaType" "text/markdown" "value" (or .bio "") }}
     {{ $params := dict
         "speakerId" (string .id)

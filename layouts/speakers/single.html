@@ -78,8 +78,9 @@
                 <div class="speaker-profile-card__body">
                     <div class="speaker-profile-card__identity">
                         <h1 class="speaker-profile-card__name">{{ $sp.fullName }}</h1>
-                        {{- with $sp.tagLine }}
-                            <p class="speaker-profile-card__tagline">{{ . }}</p>
+                        {{- $cleanTagline := strings.TrimSpace (or $sp.tagLine "") }}
+                        {{- if and (ne $cleanTagline "") (not (in (slice "n/a" "na" "-" "none") (lower $cleanTagline))) }}
+                            <p class="speaker-profile-card__tagline">{{ $cleanTagline }}</p>
                         {{- end }}
                     </div>
 
