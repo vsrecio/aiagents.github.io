@@ -1,0 +1,54 @@
+{{- $sess := .session -}}
+{{- $roomsById := or .roomsById dict -}}
+{{- $categoriesById := or .categoriesById dict -}}
+{{- $track := "" -}}
+
+{{- with index $roomsById (string $sess.roomId) -}}
+    {{- $rn := lower . -}}
+    {{- if or (in $rn "english") (in $rn "inglés") (in $rn "ingles") (in $rn "track 2") (in $rn "track 02") (eq $rn "en") -}}
+        {{- $track = "en" -}}
+    {{- else if or (in $rn "español") (in $rn "espanol") (in $rn "spanish") (in $rn "track 1") (in $rn "track 01") (eq $rn "es") -}}
+        {{- $track = "es" -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if eq $track "" -}}
+    {{- range $cid := (or $sess.categoryItems (slice)) -}}
+        {{- with index $categoriesById (string $cid) -}}
+            {{- $cn := lower . -}}
+            {{- if or (in $cn "english") (in $cn "inglés") (in $cn "ingles") -}}
+                {{- $track = "en" -}}
+            {{- else if or (in $cn "español") (in $cn "espanol") (in $cn "spanish") -}}
+                {{- $track = "es" -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if eq $track "" -}}
+    {{- $haystack := lower (printf " %s %s " (or $sess.title "") (or $sess.description "")) -}}
+    {{- if or
+        (in $haystack "á")
+        (in $haystack "é")
+        (in $haystack "í")
+        (in $haystack "ó")
+        (in $haystack "ú")
+        (in $haystack "ñ")
+        (in $haystack "¿")
+        (in $haystack "¡")
+        (in $haystack " cómo ")
+        (in $haystack " para ")
+        (in $haystack " los ")
+        (in $haystack " las ")
+        (in $haystack " una ")
+        (in $haystack " del ")
+        (in $haystack " esta ")
+        (in $haystack " charla ")
+    -}}
+        {{- $track = "es" -}}
+    {{- else -}}
+        {{- $track = "en" -}}
+    {{- end -}}
+{{- end -}}
+
+{{- return $track -}}

@@ -131,6 +131,7 @@
                             </span>
                             {{- range $sid := . }}
                                 {{- with $sess := index $sessionsById (string $sid) }}
+                                    {{- $tr := partial "session-track.html" (dict "session" $sess "roomsById" $roomsById "categoriesById" $categoriesById) }}
                                     <div class="speaker-assigned-talk">
                                         <div class="speaker-assigned-talk__meta">
                                             {{- if and $sess.startsAt $sess.endsAt }}
@@ -139,6 +140,11 @@
                                                 </span>
                                             {{- else }}
                                                 <span class="slot-tag slot-tag--orange">{{ $dateLabel }}</span>
+                                            {{- end }}
+                                            {{- if eq $tr "es" }}
+                                                <span class="slot-tag slot-tag--ink">Track 01 · Español</span>
+                                            {{- else }}
+                                                <span class="slot-tag slot-tag--blue">Track 02 · English</span>
                                             {{- end }}
                                             {{- with index $roomsById (string $sess.roomId) }}
                                                 <span class="slot-tag slot-tag--blue">{{ . }}</span>

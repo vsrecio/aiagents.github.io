@@ -17,13 +17,6 @@
         {{- $speakersById = merge $speakersById (dict (string $sp.id) $sp) }}
     {{- end }}
 
-    {{- $approvedSessions := slice }}
-    {{- range $sess := $rawSessions }}
-        {{- if not $sess.isServiceSession }}
-            {{- $approvedSessions = $approvedSessions | append $sess }}
-        {{- end }}
-    {{- end }}
-
     {{- $roomsById := dict }}
     {{- range $rm := (or $sessionize.rooms (slice)) }}
         {{- $roomsById = merge $roomsById (dict (string $rm.id) $rm.name) }}
@@ -36,24 +29,39 @@
         {{- end }}
     {{- end }}
 
+    {{- $approvedSessions := slice }}
+    {{- $esSessions := slice }}
+    {{- $enSessions := slice }}
+    {{- range $sess := $rawSessions }}
+        {{- if not $sess.isServiceSession }}
+            {{- $approvedSessions = $approvedSessions | append $sess }}
+            {{- $tr := partial "session-track.html" (dict "session" $sess "roomsById" $roomsById "categoriesById" $categoriesById) }}
+            {{- if eq $tr "es" }}
+                {{- $esSessions = $esSessions | append $sess }}
+            {{- else }}
+                {{- $enSessions = $enSessions | append $sess }}
+            {{- end }}
+        {{- end }}
+    {{- end }}
+
     <!-- Schedule / Agenda Page Header -->
     <section class="subpage-hero">
         <div class="dc-container">
             <div class="subpage-hero__inner">
                 <div class="hero-pill">
-                    <span class="hero-pill__badge">{{ if $isEn }}SCHEDULE{{ else }}CRONOGRAMA{{ end }}</span>
-                    <span class="hero-pill__text">{{ $event.title }} · 2026</span>
+                    <span class="hero-pill__badge">{{ if $isEn }}2 SIMULTANEOUS TRACKS{{ else }}2 TRACKS SIMULTÁNEOS{{ end }}</span>
+                    <span class="hero-pill__text">{{ if $isEn }}ESPAÑOL &amp; ENGLISH · {{ $event.title }}{{ else }}ESPAÑOL &amp; ENGLISH · {{ $event.title }}{{ end }}</span>
                 </div>
 
                 <h1 class="subpage-hero__heading">{{ if $isEn }}Schedule &amp; Talks{{ else }}Agenda &amp; Charlas{{ end }}</h1>
 
                 <p class="subpage-hero__intro">
                     {{- if $isEn }}
-                        Technical sessions, architecture deep dives, and live demos confirmed for
-                        <strong>{{ $dateLabel }}</strong> at <strong>{{ $event.title }}</strong>.
+                        Two simultaneous tracks—<strong>Track 01 in Spanish</strong> and <strong>Track 02 in English</strong>—featuring
+                        live architecture deep dives, workshops, and demos on <strong>{{ $dateLabel }}</strong>.
                     {{- else }}
-                        Sesiones técnicas, deep dives de arquitectura y demostraciones en vivo confirmadas para el
-                        <strong>{{ $dateLabel }}</strong> en <strong>{{ $event.title }}</strong>.
+                        Dos tracks en paralelo —<strong>Track 01 en Español</strong> y <strong>Track 02 en Inglés</strong>— con
+                        sesiones técnicas, talleres y demostraciones en vivo para el <strong>{{ $dateLabel }}</strong>.
                     {{- end }}
                 </p>
 
@@ -83,7 +91,7 @@
                         class="btn-cfp-primary scrollto"
                         href="#schedule-section"
                     >
-                        <span>{{ if $isEn }}Register for talks{{ else }}Inscribirse a las charlas{{ end }}</span>
+                        <span>{{ if $isEn }}Explore both tracks{{ else }}Explorar ambos tracks{{ end }}</span>
                         <span class="btn-cfp-primary__arrow" aria-hidden="true">↓</span>
                     </a>
                     <a class="status-badge status-badge--link" href="{{ $speakersPageUrl }}">
@@ -95,93 +103,297 @@
         </div>
     </section>
 
-    <!-- Schedule / Agenda List Section -->
+    <!-- Schedule / Agenda 2-Track Hybrid Section -->
     <section id="schedule-section" class="schedule-section section">
         <div class="dc-container">
             {{- if gt (len $approvedSessions) 0 }}
-                <div class="schedule-tab-content" role="list">
-                    {{- range $sess := $approvedSessions }}
-                        <article id="session-{{ $sess.id }}" class="item" role="listitem">
-                            <div class="meta">
-                                {{- if and $sess.startsAt $sess.endsAt }}
-                                    <div class="time">
-                                        {{ ($sess.startsAt | time.AsTime).Format "15:04" }} – {{ ($sess.endsAt | time.AsTime).Format "15:04" }}
-                                    </div>
-                                {{- else }}
-                                    <div class="time">{{ $dateLabel }}</div>
-                                {{- end }}
-                                {{- with index $roomsById (string $sess.roomId) }}
-                                    <span class="slot-tag slot-tag--blue">{{ . }}</span>
-                                {{- else }}
-                                    <span class="slot-tag slot-tag--orange">{{ if $isEn }}Confirmed Talk{{ else }}Charla Confirmada{{ end }}</span>
-                                {{- end }}
+                <!-- Interactive Track Switcher Bar -->
+                <div class="tracks-toolbar">
+                    <div class="tracks-switcher" role="tablist" aria-label="{{ if $isEn }}Filter schedule by language track{{ else }}Filtrar agenda por track de idioma{{ end }}">
+                        <button
+                            type="button"
+                            class="tracks-switcher__btn is-active"
+                            role="tab"
+                            aria-selected="true"
+                            data-track-filter="all"
+                        >
+                            <span class="tracks-switcher__dot tracks-switcher__dot--dual" aria-hidden="true"></span>
+                            <span>{{ if $isEn }}Both Simultaneous Tracks{{ else }}Ambos Tracks Simultáneos{{ end }}</span>
+                            <span class="tracks-switcher__count">{{ len $approvedSessions }}</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="tracks-switcher__btn"
+                            role="tab"
+                            aria-selected="false"
+                            data-track-filter="es"
+                        >
+                            <span class="tracks-switcher__dot tracks-switcher__dot--es" aria-hidden="true"></span>
+                            <span>{{ if $isEn }}Track 01 · Español{{ else }}Track 01 · Español{{ end }}</span>
+                            <span class="tracks-switcher__count">{{ len $esSessions }}</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="tracks-switcher__btn"
+                            role="tab"
+                            aria-selected="false"
+                            data-track-filter="en"
+                        >
+                            <span class="tracks-switcher__dot tracks-switcher__dot--en" aria-hidden="true"></span>
+                            <span>{{ if $isEn }}Track 02 · English{{ else }}Track 02 · English{{ end }}</span>
+                            <span class="tracks-switcher__count">{{ len $enSessions }}</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2-Column Simultaneous Tracks Board -->
+                <div class="tracks-board" data-active-track="all">
+                    <!-- TRACK 01: ESPAÑOL -->
+                    <div class="track-column track-column--es" data-track-col="es">
+                        <header class="track-column__header track-column__header--es">
+                            <div class="track-column__header-top">
+                                <span class="track-column__badge track-column__badge--es">
+                                    <span class="track-column__badge-dot" aria-hidden="true"></span>
+                                    <span>TRACK 01 · ESPAÑOL</span>
+                                </span>
+                                <span class="track-column__count">
+                                    {{ len $esSessions }} {{ if eq (len $esSessions) 1 }}{{ if $isEn }}session{{ else }}charla{{ end }}{{ else }}{{ if $isEn }}sessions{{ else }}charlas{{ end }}{{ end }}
+                                </span>
                             </div>
+                            <h2 class="track-column__title">
+                                {{ if $isEn }}Spanish Track (Comunidad LATAM){{ else }}Track en Español (Comunidad LATAM){{ end }}
+                            </h2>
+                            <p class="track-column__desc">
+                                {{- if $isEn }}
+                                    Sessions, live demos, and architectural deep dives delivered entirely in Spanish.
+                                {{- else }}
+                                    Sesiones técnicas, demostraciones en vivo y arquitecturas de agentes impartidas íntegramente en español.
+                                {{- end }}
+                            </p>
+                        </header>
 
-                            <div class="content">
-                                {{- with $sess.categoryItems }}
-                                    <div class="session-tags">
-                                        {{- range $cid := . }}
-                                            {{- with index $categoriesById (string $cid) }}
-                                                <span class="slot-tag slot-tag--ink">{{ . }}</span>
+                        {{- if gt (len $esSessions) 0 }}
+                            <div class="track-sessions-list" role="list">
+                                {{- range $sess := $esSessions }}
+                                    <article id="session-{{ $sess.id }}" class="track-session-card track-session-card--es" role="listitem">
+                                        <div class="track-session-card__meta">
+                                            <span class="slot-tag slot-tag--orange">
+                                                {{- if and $sess.startsAt $sess.endsAt -}}
+                                                    {{ ($sess.startsAt | time.AsTime).Format "15:04" }} – {{ ($sess.endsAt | time.AsTime).Format "15:04" }}
+                                                {{- else -}}
+                                                    {{ $dateLabel }}
+                                                {{- end -}}
+                                            </span>
+                                            <span class="slot-tag slot-tag--ink">Track 01 · Español</span>
+                                            {{- with index $roomsById (string $sess.roomId) }}
+                                                <span class="slot-tag slot-tag--blue">{{ . }}</span>
                                             {{- end }}
-                                        {{- end }}
-                                    </div>
-                                {{- end }}
-
-                                <h2 class="title">{{ $sess.title }}</h2>
-
-                                {{- with $sess.description }}
-                                    <p class="desc">{{ . }}</p>
-                                {{- end }}
-
-                                {{- $callUrl := or $sess.liveUrl (index (or $event.sessionCallLinks dict) (string $sess.id)) $event.defaultCallUrl "#schedule-section" }}
-                                <div class="session-footer">
-                                    {{- with $sess.speakers }}
-                                        <div class="session-speakers">
-                                            {{- range $spId := . }}
-                                                {{- with index $speakersById (string $spId) }}
-                                                    {{- $cleanRole := strings.TrimSpace (or .tagLine "") }}
-                                                    <a class="session-speaker-chip session-speaker-chip--link" href="{{ printf "%s%s/" $speakersPageUrl (partial "speaker-slug.html" .) }}">
-                                                        {{- if .profilePicture }}
-                                                            <img
-                                                                class="session-speaker-chip__avatar"
-                                                                src="{{ .profilePicture }}"
-                                                                alt="{{ .fullName }}"
-                                                                width="32"
-                                                                height="32"
-                                                                loading="lazy"
-                                                            />
-                                                        {{- end }}
-                                                        <div class="session-speaker-chip__info">
-                                                            <strong class="session-speaker-chip__name">{{ .fullName }}</strong>
-                                                            {{- if and (ne $cleanRole "") (not (in (slice "n/a" "na" "-" "none") (lower $cleanRole))) }}
-                                                                <span class="session-speaker-chip__role">{{ $cleanRole }}</span>
-                                                            {{- end }}
-                                                        </div>
-                                                    </a>
+                                            {{- range $cid := (or $sess.categoryItems (slice)) }}
+                                                {{- with index $categoriesById (string $cid) }}
+                                                    <span class="slot-tag slot-tag--ink">{{ . }}</span>
                                                 {{- end }}
                                             {{- end }}
                                         </div>
-                                    {{- end }}
 
-                                    <a
-                                        class="session-join-btn"
-                                        href="{{ $callUrl }}"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <svg class="session-join-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                            <polygon points="23 7 16 12 23 17 23 7"/>
-                                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-                                        </svg>
-                                        <span>{{ if $isEn }}Register / Join Call{{ else }}Inscribirse / Entrar a la llamada{{ end }}</span>
-                                        <span aria-hidden="true">↗</span>
-                                    </a>
-                                </div>
+                                        <h3 class="track-session-card__title">{{ $sess.title }}</h3>
+
+                                        {{- with $sess.description }}
+                                            <p class="track-session-card__desc">{{ . }}</p>
+                                        {{- end }}
+
+                                        {{- $callUrl := or $sess.liveUrl (index (or $event.sessionCallLinks dict) (string $sess.id)) $event.defaultCallUrl "#schedule-section" }}
+                                        <div class="session-footer">
+                                            {{- with $sess.speakers }}
+                                                <div class="session-speakers">
+                                                    {{- range $spId := . }}
+                                                        {{- with index $speakersById (string $spId) }}
+                                                            {{- $cleanRole := strings.TrimSpace (or .tagLine "") }}
+                                                            <a class="session-speaker-chip session-speaker-chip--link" href="{{ printf "%s%s/" $speakersPageUrl (partial "speaker-slug.html" .) }}">
+                                                                {{- if .profilePicture }}
+                                                                    <img
+                                                                        class="session-speaker-chip__avatar"
+                                                                        src="{{ .profilePicture }}"
+                                                                        alt="{{ .fullName }}"
+                                                                        width="32"
+                                                                        height="32"
+                                                                        loading="lazy"
+                                                                    />
+                                                                {{- end }}
+                                                                <div class="session-speaker-chip__info">
+                                                                    <strong class="session-speaker-chip__name">{{ .fullName }}</strong>
+                                                                    {{- if and (ne $cleanRole "") (not (in (slice "n/a" "na" "-" "none") (lower $cleanRole))) }}
+                                                                        <span class="session-speaker-chip__role">{{ $cleanRole }}</span>
+                                                                    {{- end }}
+                                                                </div>
+                                                            </a>
+                                                        {{- end }}
+                                                    {{- end }}
+                                                </div>
+                                            {{- end }}
+
+                                            <a
+                                                class="session-join-btn"
+                                                href="{{ $callUrl }}"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                <svg class="session-join-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                    <polygon points="23 7 16 12 23 17 23 7"/>
+                                                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                                                </svg>
+                                                <span>{{ if $isEn }}Register / Join Call{{ else }}Inscribirse / Entrar a la llamada{{ end }}</span>
+                                                <span aria-hidden="true">↗</span>
+                                            </a>
+                                        </div>
+                                    </article>
+                                {{- end }}
                             </div>
-                        </article>
-                    {{- end }}
+                        {{- else }}
+                            <div class="track-empty-card">
+                                <p>{{ if $isEn }}New Spanish track sessions will be published soon.{{ else }}Próximamente se publicarán más charlas confirmadas en el Track en Español.{{ end }}</p>
+                            </div>
+                        {{- end }}
+                    </div>
+
+                    <!-- TRACK 02: ENGLISH -->
+                    <div class="track-column track-column--en" data-track-col="en">
+                        <header class="track-column__header track-column__header--en">
+                            <div class="track-column__header-top">
+                                <span class="track-column__badge track-column__badge--en">
+                                    <span class="track-column__badge-dot" aria-hidden="true"></span>
+                                    <span>TRACK 02 · ENGLISH</span>
+                                </span>
+                                <span class="track-column__count">
+                                    {{ len $enSessions }} {{ if eq (len $enSessions) 1 }}{{ if $isEn }}session{{ else }}charla{{ end }}{{ else }}{{ if $isEn }}sessions{{ else }}charlas{{ end }}{{ end }}
+                                </span>
+                            </div>
+                            <h2 class="track-column__title">
+                                {{ if $isEn }}English Track (Global Speakers){{ else }}Track en Inglés (Global Speakers){{ end }}
+                            </h2>
+                            <p class="track-column__desc">
+                                {{- if $isEn }}
+                                    Technical talks, hands-on workshops, and production case studies delivered in English.
+                                {{- else }}
+                                    Charlas técnicas, talleres prácticos y casos en producción impartidos en inglés por referentes globales.
+                                {{- end }}
+                            </p>
+                        </header>
+
+                        {{- if gt (len $enSessions) 0 }}
+                            <div class="track-sessions-list" role="list">
+                                {{- range $sess := $enSessions }}
+                                    <article id="session-{{ $sess.id }}" class="track-session-card track-session-card--en" role="listitem">
+                                        <div class="track-session-card__meta">
+                                            <span class="slot-tag slot-tag--blue">
+                                                {{- if and $sess.startsAt $sess.endsAt -}}
+                                                    {{ ($sess.startsAt | time.AsTime).Format "15:04" }} – {{ ($sess.endsAt | time.AsTime).Format "15:04" }}
+                                                {{- else -}}
+                                                    {{ $dateLabel }}
+                                                {{- end -}}
+                                            </span>
+                                            <span class="slot-tag slot-tag--ink">Track 02 · English</span>
+                                            {{- with index $roomsById (string $sess.roomId) }}
+                                                <span class="slot-tag slot-tag--orange">{{ . }}</span>
+                                            {{- end }}
+                                            {{- range $cid := (or $sess.categoryItems (slice)) }}
+                                                {{- with index $categoriesById (string $cid) }}
+                                                    <span class="slot-tag slot-tag--ink">{{ . }}</span>
+                                                {{- end }}
+                                            {{- end }}
+                                        </div>
+
+                                        <h3 class="track-session-card__title">{{ $sess.title }}</h3>
+
+                                        {{- with $sess.description }}
+                                            <p class="track-session-card__desc">{{ . }}</p>
+                                        {{- end }}
+
+                                        {{- $callUrl := or $sess.liveUrl (index (or $event.sessionCallLinks dict) (string $sess.id)) $event.defaultCallUrl "#schedule-section" }}
+                                        <div class="session-footer">
+                                            {{- with $sess.speakers }}
+                                                <div class="session-speakers">
+                                                    {{- range $spId := . }}
+                                                        {{- with index $speakersById (string $spId) }}
+                                                            {{- $cleanRole := strings.TrimSpace (or .tagLine "") }}
+                                                            <a class="session-speaker-chip session-speaker-chip--link" href="{{ printf "%s%s/" $speakersPageUrl (partial "speaker-slug.html" .) }}">
+                                                                {{- if .profilePicture }}
+                                                                    <img
+                                                                        class="session-speaker-chip__avatar"
+                                                                        src="{{ .profilePicture }}"
+                                                                        alt="{{ .fullName }}"
+                                                                        width="32"
+                                                                        height="32"
+                                                                        loading="lazy"
+                                                                    />
+                                                                {{- end }}
+                                                                <div class="session-speaker-chip__info">
+                                                                    <strong class="session-speaker-chip__name">{{ .fullName }}</strong>
+                                                                    {{- if and (ne $cleanRole "") (not (in (slice "n/a" "na" "-" "none") (lower $cleanRole))) }}
+                                                                        <span class="session-speaker-chip__role">{{ $cleanRole }}</span>
+                                                                    {{- end }}
+                                                                </div>
+                                                            </a>
+                                                        {{- end }}
+                                                    {{- end }}
+                                                </div>
+                                            {{- end }}
+
+                                            <a
+                                                class="session-join-btn"
+                                                href="{{ $callUrl }}"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                <svg class="session-join-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                    <polygon points="23 7 16 12 23 17 23 7"/>
+                                                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                                                </svg>
+                                                <span>{{ if $isEn }}Register / Join Call{{ else }}Inscribirse / Entrar a la llamada{{ end }}</span>
+                                                <span aria-hidden="true">↗</span>
+                                            </a>
+                                        </div>
+                                    </article>
+                                {{- end }}
+                            </div>
+                        {{- else }}
+                            <div class="track-empty-card">
+                                <p>{{ if $isEn }}New English track sessions will be published soon.{{ else }}Próximamente se publicarán más charlas confirmadas en el Track en Inglés.{{ end }}</p>
+                            </div>
+                        {{- end }}
+                    </div>
                 </div>
+
+                <script>
+                    (function () {
+                        const board = document.querySelector('.tracks-board');
+                        const buttons = document.querySelectorAll('[data-track-filter]');
+                        if (!board || !buttons.length) return;
+
+                        function setTrack(track) {
+                            board.setAttribute('data-active-track', track);
+                            buttons.forEach(function (btn) {
+                                const isMatch = btn.getAttribute('data-track-filter') === track;
+                                btn.classList.toggle('is-active', isMatch);
+                                btn.setAttribute('aria-selected', String(isMatch));
+                            });
+                        }
+
+                        buttons.forEach(function (btn) {
+                            btn.addEventListener('click', function () {
+                                setTrack(btn.getAttribute('data-track-filter') || 'all');
+                            });
+                        });
+
+                        if (window.location.hash && window.location.hash.startsWith('#session-')) {
+                            const target = document.querySelector(window.location.hash);
+                            if (target) {
+                                setTrack('all');
+                            }
+                        }
+                    })();
+                </script>
             {{- else }}
                 <p class="section-intro single-col-max">
                     {{- if $isEn }}
